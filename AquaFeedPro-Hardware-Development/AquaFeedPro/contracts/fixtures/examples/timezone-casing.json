@@ -1,0 +1,8 @@
+{
+    "canonical":  "Asia/Manila",
+    "lowercase_variant":  "asia/manila",
+    "alias":  "Asia/Kolkata",
+    "numeric_offset":  "+08:00",
+    "nonexistent":  "Atlantis/Nowhere",
+    "second_alias":  "Asia/Calcutta"
+}

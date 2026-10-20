@@ -1,0 +1,26 @@
+{
+  "protocol_major": 2,
+  "request_id": "22222222-2222-4222-8222-222222222222",
+  "boot_id": "44444444-4444-4444-8444-444444444444",
+  "live_sequence": 100,
+  "firmware_version": "example-controller-0.1.0",
+  "capabilities_revision": 1,
+  "clock": {
+    "quality": "invalid",
+    "uncertainty_ms": null
+  },
+  "actuator": {
+    "state": "idle",
+    "active_sequence_id": null,
+    "fault_code": null
+  },
+  "configuration": {
+    "applied_revision": null,
+    "last_attempt_revision": null,
+    "last_attempt_status": null,
+    "error_code": null
+  },
+  "latest_sample": null,
+  "backlog_samples": [],
+  "events": []
+}

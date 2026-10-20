@@ -1,0 +1,470 @@
+openapi: 3.1.1
+info:
+  title: AquaFeed Pro device and installation API
+  version: 1.0.0
+  description: >-
+    Frozen v1 wire description. Paths are relative to the environment-specific
+    Supabase /functions/v1 origin. This describes a contract only; it does not
+    assert that any function or device behavior is deployed.
+servers:
+  - url: /functions/v1
+    description: Relative to the selected environment origin; no host or secret is embedded.
+tags:
+  - name: Installation
+  - name: Device
+security: []
+paths:
+  /app-api/v1/pair:
+    post:
+      tags: [Installation]
+      operationId: pairInstallation
+      summary: Redeem a one-use pairing challenge
+      description: >-
+        Requires an authenticated Supabase anonymous installation session.
+        Pairing does not require an existing membership for this device. The
+        backend consumes the challenge and grants this installation membership
+        atomically. The phone never receives the reusable device credential.
+      security:
+        - InstallationJwt: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PairRequest'
+      responses:
+        '201':
+          description: Challenge consumed and this installation granted access.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PairResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/feed:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    post:
+      tags: [Installation]
+      operationId: createManualFeed
+      summary: Create or recover one confirmed manual-feed command
+      description: >-
+        Requires active membership for the selected device. The phone persists
+        one idempotency_key after explicit confirmation. A timeout is recovered
+        with the same key and semantic payload; it never creates a new feeding
+        identity. Equality uses dose and capabilities_revision; request_id is
+        correlation only. Reusing a key with changed semantic fields conflicts.
+        HTTP 202 means queued/recorded, not physical completion.
+      security:
+        - InstallationJwt: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ManualFeedRequest'
+      responses:
+        '200':
+          description: Existing idempotency identity; returns its current authoritative state, including terminal or unknown outcomes.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandStatusResponse'
+        '202':
+          description: Command identity and intent were recorded; feeding has not been confirmed.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandAcceptedResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/commands/{commandId}:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+      - $ref: '#/components/parameters/CommandId'
+      - $ref: '#/components/parameters/ProtocolMajorHeader'
+      - $ref: '#/components/parameters/RequestIdHeader'
+    get:
+      tags: [Installation]
+      operationId: getCommandStatus
+      summary: Read authoritative status for one command
+      description: Read-only recovery lookup; it cannot unlock a device or create another feed.
+      security:
+        - InstallationJwt: []
+      responses:
+        '200':
+          description: Current command state and any device-authenticated maintenance resolution.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandStatusResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/commands/by-key:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+      - $ref: '#/components/parameters/ProtocolMajorHeader'
+      - $ref: '#/components/parameters/RequestIdHeader'
+    get:
+      tags: [Installation]
+      operationId: getCommandByIdempotencyKey
+      summary: Recover the original command after a lost creation response
+      description: The lookup is scoped to the authenticated installation and selected device; `key` is the original idempotency key.
+      security:
+        - InstallationJwt: []
+      parameters:
+        - name: key
+          in: query
+          required: true
+          description: Original idempotency key; do not generate a new key to recover an uncertain feed.
+          schema:
+            $ref: '#/components/schemas/Uuid'
+      responses:
+        '200':
+          description: Original command status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommandByKeyResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/configuration:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    put:
+      tags: [Installation]
+      operationId: putConfigurationSnapshot
+      summary: Submit a complete configuration snapshot with compare-and-swap
+      description: >-
+        Requires active membership. Rejects a stale base revision or a second
+        edit while a revision is pending. Repeating request_id with the same
+        based_on_revision and semantic snapshot returns the same immutable
+        revision receipt; a changed payload conflicts. Both response codes
+        include that original receipt plus a fresh current_state view, so a
+        replay does not falsely report pending after application or rejection.
+        Desired and applied revisions remain separate, and the device applies
+        a validated full snapshot atomically between operations.
+      security:
+        - InstallationJwt: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConfigurationWriteRequest'
+      responses:
+        '202':
+          description: New full snapshot accepted as desired and awaiting device application.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigurationWriteResponse'
+        '200':
+          description: Idempotent replay returned the already-created revision.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConfigurationWriteResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/alias:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+    patch:
+      tags: [Installation]
+      operationId: patchInstallationAlias
+      summary: Update this installation's local device alias or location
+      description: Alias and location are per installation; this does not rename the device for other installations.
+      security:
+        - InstallationJwt: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AliasUpdateRequest'
+      responses:
+        '200':
+          description: This installation's access label was updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AliasUpdateResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /app-api/v1/devices/{id}/access:
+    parameters:
+      - $ref: '#/components/parameters/DeviceId'
+      - $ref: '#/components/parameters/ProtocolMajorHeader'
+      - $ref: '#/components/parameters/RequestIdHeader'
+    delete:
+      tags: [Installation]
+      operationId: revokeInstallationAccess
+      summary: Revoke only this installation's device membership
+      description: >-
+        Removes this installation's access and local device data. It does not
+        erase or stop schedules already applied on the controller. Existing
+        schedules may continue without this phone or internet access.
+      security:
+        - InstallationJwt: []
+      responses:
+        '200':
+          description: This installation's membership was revoked.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessRevokedResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /device-api/v1/sync:
+    post:
+      tags: [Device]
+      operationId: syncDevice
+      summary: Upload live state and bounded history; receive acknowledgments and desired work
+      description: >-
+        Requires the credential of one provisioned device; identity is derived
+        from that credential, never trusted from a body device_id. One sync may
+        be outstanding per device. The whole request is rejected on any invalid
+        record; no record is silently dropped or partially accepted. At most
+        100 telemetry samples are accepted in total: latest_sample counts, so
+        backlog_samples is limited to 99 when latest_sample is present (100
+        when it is null). Enforce a 262144-byte UTF-8 JSON body limit. Authenticated contact time updates
+        even when the current sample is null or unavailable. A response never
+        grants stale work permission to actuate; the controller rechecks the
+        start deadline and lock immediately before movement.
+      security:
+        - DeviceCredential: []
+      requestBody:
+        required: true
+        x-max-request-bytes: 262144
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceSyncRequest'
+      responses:
+        '200':
+          description: Stable sample and event acknowledgments plus at most one unresolved manual command.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceSyncResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '413': { $ref: '#/components/responses/PayloadTooLarge' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+  /device-api/v1/pairing-window:
+    post:
+      tags: [Device]
+      operationId: openPairingWindow
+      summary: Create a short-lived one-use pairing challenge
+      description: >-
+        Requires the device's own revocable credential and a locally verified
+        physical pairing action before challenge creation. Trigger, presentation,
+        entropy, expiry and attempt limits remain explicit hardware/security
+        profile values; this route does not invent or accept an app-controlled
+        pairing duration. The response secret is device-only and must not be
+        logged or transmitted with the reusable machine credential.
+      security:
+        - DeviceCredential: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PairingWindowRequest'
+      responses:
+        '201':
+          description: Challenge created for physical presentation and one-time redemption.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PairingWindowResponse'
+        '400': { $ref: '#/components/responses/BadRequest' }
+        '401': { $ref: '#/components/responses/Unauthorized' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '422': { $ref: '#/components/responses/Unprocessable' }
+        '429': { $ref: '#/components/responses/TooManyRequests' }
+        '503': { $ref: '#/components/responses/ServiceUnavailable' }
+
+components:
+  securitySchemes:
+    InstallationJwt:
+      type: http
+      scheme: bearer
+      bearerFormat: Supabase anonymous installation JWT
+      description: >-
+        An authenticated anonymous Supabase Auth session identifies an app
+        installation. Active per-device membership is checked on every
+        protected operation. A publishable project key alone grants no access.
+    DeviceCredential:
+      type: http
+      scheme: bearer
+      bearerFormat: Device token
+      description: >-
+        Revocable machine credential resolves exactly one device. Never place a
+        project service-role key or this credential in the phone app. The
+        device cannot use this credential to access another device or administer
+        the project.
+  parameters:
+    DeviceId:
+      name: id
+      in: path
+      required: true
+      description: Selected device UUID; installation membership is checked for this exact device.
+      schema:
+        $ref: '#/components/schemas/Uuid'
+    CommandId:
+      name: commandId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Uuid'
+    ProtocolMajorHeader:
+      name: X-Protocol-Major
+      in: header
+      required: true
+      description: Protocol version for a bodyless request.
+      schema:
+        $ref: '#/components/schemas/ProtocolMajor'
+    RequestIdHeader:
+      name: X-Request-Id
+      in: header
+      required: true
+      description: Correlation ID for a bodyless request; not an idempotency key.
+      schema:
+        $ref: '#/components/schemas/Uuid'
+  schemas:
+    Uuid:
+      $ref: './schemas/v1.schema.json#/$defs/Uuid'
+    ProtocolMajor:
+      $ref: './schemas/v1.schema.json#/$defs/ProtocolMajor'
+    ErrorEnvelope:
+      $ref: './schemas/v1.schema.json#/$defs/ErrorEnvelope'
+    PairRequest:
+      $ref: './schemas/v1.schema.json#/$defs/PairRequest'
+    PairResponse:
+      $ref: './schemas/v1.schema.json#/$defs/PairResponse'
+    ManualFeedRequest:
+      $ref: './schemas/v1.schema.json#/$defs/ManualFeedRequest'
+    CommandAcceptedResponse:
+      $ref: './schemas/v1.schema.json#/$defs/CommandAcceptedResponse'
+    CommandStatusResponse:
+      $ref: './schemas/v1.schema.json#/$defs/CommandStatusResponse'
+    CommandByKeyResponse:
+      $ref: './schemas/v1.schema.json#/$defs/CommandByKeyResponse'
+    ConfigurationWriteRequest:
+      $ref: './schemas/v1.schema.json#/$defs/ConfigurationWriteRequest'
+    ConfigurationWriteResponse:
+      $ref: './schemas/v1.schema.json#/$defs/ConfigurationWriteResponse'
+    AliasUpdateRequest:
+      $ref: './schemas/v1.schema.json#/$defs/AliasUpdateRequest'
+    AliasUpdateResponse:
+      $ref: './schemas/v1.schema.json#/$defs/AliasUpdateResponse'
+    AccessRevokedResponse:
+      $ref: './schemas/v1.schema.json#/$defs/AccessRevokedResponse'
+    DeviceSyncRequest:
+      $ref: './schemas/v1.schema.json#/$defs/DeviceSyncRequest'
+    DeviceSyncResponse:
+      $ref: './schemas/v1.schema.json#/$defs/DeviceSyncResponse'
+    PairingWindowRequest:
+      $ref: './schemas/v1.schema.json#/$defs/PairingWindowRequest'
+    PairingWindowResponse:
+      $ref: './schemas/v1.schema.json#/$defs/PairingWindowResponse'
+  responses:
+    BadRequest:
+      description: Malformed JSON, missing required fields, or invalid v1 data.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Unauthorized:
+      description: Missing, invalid, expired, or revoked caller credential.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Forbidden:
+      description: Installation has no active membership or device action is not authorized.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    NotFound:
+      description: Resource is unavailable without exposing another device's existence.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Conflict:
+      description: Idempotency, command-busy, pending-configuration, pairing, or revision conflict.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    Unprocessable:
+      description: Unsupported protocol capability or rejected dose/configuration.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    PayloadTooLarge:
+      description: Request exceeds the 256 KiB UTF-8 JSON limit.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    TooManyRequests:
+      description: Rate limit exceeded; retry guidance does not authorize a new feed identity.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }
+    ServiceUnavailable:
+      description: Temporary service failure; uncertain feeds are looked up by their original key.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/ErrorEnvelope' }

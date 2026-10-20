@@ -1,0 +1,13 @@
+{
+  "name": "aquafeedpro-contracts",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "validate": "node --experimental-strip-types scripts/validate.ts"
+  },
+  "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.9.1"
+  }
+}

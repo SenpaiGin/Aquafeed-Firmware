@@ -1,0 +1,55 @@
+{
+  "contract_version": "2.7.0",
+  "source_commit": "2d208eca9ad68485f0295eda33b8a5c5adfbeed2",
+  "purpose": "Documentation fixtures only; never send unchanged to a live feeder. Numbers are illustrative, not approved hardware limits.",
+  "examples": [
+    {
+      "file": "01-first-sync.json",
+      "schema": "DeviceSyncRequest"
+    },
+    {
+      "file": "02-live-sync-do-unavailable.json",
+      "schema": "DeviceSyncRequest"
+    },
+    {
+      "file": "03-sync-response-with-command.json",
+      "schema": "DeviceSyncResponse"
+    },
+    {
+      "file": "04-configuration-both.json",
+      "schema": "ConfigurationSnapshot"
+    },
+    {
+      "file": "05-wait-request.json",
+      "schema": "DeviceWaitRequest"
+    },
+    {
+      "file": "06-wait-response.json",
+      "schema": "DeviceWaitResponse"
+    },
+    {
+      "file": "07-pairing-window-request.json",
+      "schema": "PairingWindowRequest"
+    },
+    {
+      "file": "08-pairing-window-response.json",
+      "schema": "PairingWindowResponse"
+    },
+    {
+      "file": "09-manual-both-events.json",
+      "schema": "RunEvent[]"
+    },
+    {
+      "file": "10-unknown-event.json",
+      "schema": "RunEvent"
+    },
+    {
+      "file": "11-maintenance-event.json",
+      "schema": "RunEvent"
+    },
+    {
+      "file": "12-scheduled-accepted-event.json",
+      "schema": "RunEvent"
+    }
+  ]
+}

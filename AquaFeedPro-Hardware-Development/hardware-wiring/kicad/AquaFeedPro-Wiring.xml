@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>D:\thesis commision\Automated Fish Feeding System\hardware-wiring\kicad\AquaFeedPro-Wiring.kicad_sch</source>
+    <date>2026-10-13T19:35:12+0800</date>
+    <tool>Eeschema 9.0.4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title/>
+        <company/>
+        <rev/>
+        <date/>
+        <source>AquaFeedPro-Wiring.kicad_sch</source>
+        <comment number="1" value=""/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="K1">
+      <value>1-channel relay</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="Relay_Module_1CH" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>13f6f7c9-f6cd-4392-b2a0-bb05f3bd5748</tstamps>
+    </comp>
+    <comp ref="LC1">
+      <value>Hopper load cell</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="Load_Cell" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>35a2bfed-bee1-4360-8f02-f6ef8802d7b7</tstamps>
+    </comp>
+    <comp ref="M1">
+      <value>60 RPM</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DC_Motor" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>58dcd81c-af62-4c7a-9dc3-d5e676c85d74</tstamps>
+    </comp>
+    <comp ref="M2">
+      <value>60 RPM</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DC_Motor" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>54478b41-5115-4f44-9226-28270d2ace5a</tstamps>
+    </comp>
+    <comp ref="M3">
+      <value>Swing motor</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DC_Motor" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a7f021f8-f951-4eee-9479-8e8dc2017027</tstamps>
+    </comp>
+    <comp ref="M4">
+      <value>DC blower</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DC_Motor" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>99e34798-e2b2-456b-a2c9-7ca582408a15</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>Raspberry Pi 4B</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="Pi4B_UsedConnections" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6bab37bd-b499-4423-b606-a4640256d4a8</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>DRV8871</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DRV8871_Module" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>68cb0160-e547-439e-be0e-6fb3891cb5d3</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>DRV8871</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DRV8871_Module" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6336d76a-7b94-4414-a8fa-01b7a3b6bf4e</tstamps>
+    </comp>
+    <comp ref="U4">
+      <value>DRV8871</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="DRV8871_Module" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>54a87bc8-bd30-4f33-99df-3f338d22fd7f</tstamps>
+    </comp>
+    <comp ref="U5">
+      <value>HX711</value>
+      <datasheet>~</datasheet>
+      <fields>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <libsource lib="" part="HX711_Module" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="AquaFeedPro-Wiring.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a0c45314-7103-4220-a4e5-8e89b0021da5</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="" part="DC_Motor">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">M</field>
+        <field name="Value">DC_Motor</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="" type="passive"/>
+        <pin num="2" name="" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="DRV8871_Module">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">DRV8871_Module</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="VM" type="power_in"/>
+        <pin num="2" name="IN1" type="input"/>
+        <pin num="3" name="IN2" type="input"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="OUT1" type="output"/>
+        <pin num="6" name="OUT2" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="HX711_Module">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">HX711_Module</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC" type="power_in"/>
+        <pin num="2" name="DT" type="output"/>
+        <pin num="3" name="SCK" type="input"/>
+        <pin num="4" name="GND" type="power_in"/>
+        <pin num="5" name="E+" type="power_out"/>
+        <pin num="6" name="E-" type="passive"/>
+        <pin num="7" name="A+" type="input"/>
+        <pin num="8" name="A-" type="input"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="Load_Cell">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">LC</field>
+        <field name="Value">Load_Cell</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="E+" type="passive"/>
+        <pin num="2" name="E-" type="passive"/>
+        <pin num="3" name="S+" type="passive"/>
+        <pin num="4" name="S-" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="Pi4B_UsedConnections">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">Pi4B_UsedConnections</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="3V3" type="power_out"/>
+        <pin num="6" name="GND" type="power_in"/>
+        <pin num="11" name="GPIO17" type="output"/>
+        <pin num="12" name="GPIO18" type="output"/>
+        <pin num="15" name="GPIO22" type="output"/>
+        <pin num="16" name="GPIO23" type="output"/>
+        <pin num="18" name="GPIO24" type="output"/>
+        <pin num="29" name="GPIO5_/_DT" type="input"/>
+        <pin num="31" name="GPIO6_/_SCK" type="output"/>
+      </pins>
+    </libpart>
+    <libpart lib="" part="Relay_Module_1CH">
+      <docs>~</docs>
+      <fields>
+        <field name="Reference">K</field>
+        <field name="Value">Relay_Module_1CH</field>
+        <field name="Footprint"/>
+        <field name="Datasheet">~</field>
+        <field name="Description"/>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC" type="power_in"/>
+        <pin num="2" name="IN" type="input"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="COM" type="passive"/>
+        <pin num="5" name="NO" type="passive"/>
+        <pin num="6" name="NC" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="1" name="/+3V3" class="Default">
+      <node ref="U1" pin="1" pinfunction="3V3" pintype="power_out"/>
+      <node ref="U5" pin="1" pinfunction="VCC" pintype="power_in"/>
+    </net>
+    <net code="2" name="/BLOWER_EN" class="Default">
+      <node ref="K1" pin="2" pinfunction="IN" pintype="input"/>
+      <node ref="U1" pin="18" pinfunction="GPIO24" pintype="output"/>
+    </net>
+    <net code="3" name="/BLOWER_SWITCHED" class="Default">
+      <node ref="K1" pin="5" pinfunction="NO" pintype="passive"/>
+      <node ref="M4" pin="1" pintype="passive"/>
+    </net>
+    <net code="4" name="/GND" class="Default">
+      <node ref="K1" pin="3" pinfunction="GND" pintype="power_in"/>
+      <node ref="M4" pin="2" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="GND" pintype="power_in"/>
+      <node ref="U2" pin="3" pinfunction="IN2" pintype="input"/>
+      <node ref="U2" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U3" pin="3" pinfunction="IN2" pintype="input"/>
+      <node ref="U3" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U4" pin="4" pinfunction="GND" pintype="power_in"/>
+      <node ref="U5" pin="4" pinfunction="GND" pintype="power_in"/>
+    </net>
+    <net code="5" name="/HX_DT" class="Default">
+      <node ref="U1" pin="29" pinfunction="GPIO5_/_DT" pintype="input"/>
+      <node ref="U5" pin="2" pinfunction="DT" pintype="output"/>
+    </net>
+    <net code="6" name="/HX_SCK" class="Default">
+      <node ref="U1" pin="31" pinfunction="GPIO6_/_SCK" pintype="output"/>
+      <node ref="U5" pin="3" pinfunction="SCK" pintype="input"/>
+    </net>
+    <net code="7" name="/LC_EXC_N" class="Default">
+      <node ref="LC1" pin="2" pinfunction="E-" pintype="passive"/>
+      <node ref="U5" pin="6" pinfunction="E-" pintype="passive"/>
+    </net>
+    <net code="8" name="/LC_EXC_P" class="Default">
+      <node ref="LC1" pin="1" pinfunction="E+" pintype="passive"/>
+      <node ref="U5" pin="5" pinfunction="E+" pintype="power_out"/>
+    </net>
+    <net code="9" name="/LC_SIG_N" class="Default">
+      <node ref="LC1" pin="4" pinfunction="S-" pintype="passive"/>
+      <node ref="U5" pin="8" pinfunction="A-" pintype="input"/>
+    </net>
+    <net code="10" name="/LC_SIG_P" class="Default">
+      <node ref="LC1" pin="3" pinfunction="S+" pintype="passive"/>
+      <node ref="U5" pin="7" pinfunction="A+" pintype="input"/>
+    </net>
+    <net code="11" name="/M1_A" class="Default">
+      <node ref="M1" pin="1" pintype="passive"/>
+      <node ref="U2" pin="5" pinfunction="OUT1" pintype="output"/>
+    </net>
+    <net code="12" name="/M1_B" class="Default">
+      <node ref="M1" pin="2" pintype="passive"/>
+      <node ref="U2" pin="6" pinfunction="OUT2" pintype="output"/>
+    </net>
+    <net code="13" name="/M1_IN1" class="Default">
+      <node ref="U1" pin="12" pinfunction="GPIO18" pintype="output"/>
+      <node ref="U2" pin="2" pinfunction="IN1" pintype="input"/>
+    </net>
+    <net code="14" name="/M2_A" class="Default">
+      <node ref="M2" pin="1" pintype="passive"/>
+      <node ref="U3" pin="5" pinfunction="OUT1" pintype="output"/>
+    </net>
+    <net code="15" name="/M2_B" class="Default">
+      <node ref="M2" pin="2" pintype="passive"/>
+      <node ref="U3" pin="6" pinfunction="OUT2" pintype="output"/>
+    </net>
+    <net code="16" name="/M2_IN1" class="Default">
+      <node ref="U1" pin="11" pinfunction="GPIO17" pintype="output"/>
+      <node ref="U3" pin="2" pinfunction="IN1" pintype="input"/>
+    </net>
+    <net code="17" name="/M3_A" class="Default">
+      <node ref="M3" pin="1" pintype="passive"/>
+      <node ref="U4" pin="5" pinfunction="OUT1" pintype="output"/>
+    </net>
+    <net code="18" name="/M3_B" class="Default">
+      <node ref="M3" pin="2" pintype="passive"/>
+      <node ref="U4" pin="6" pinfunction="OUT2" pintype="output"/>
+    </net>
+    <net code="19" name="/M3_IN1" class="Default">
+      <node ref="U1" pin="15" pinfunction="GPIO22" pintype="output"/>
+      <node ref="U4" pin="2" pinfunction="IN1" pintype="input"/>
+    </net>
+    <net code="20" name="/M3_IN2" class="Default">
+      <node ref="U1" pin="16" pinfunction="GPIO23" pintype="output"/>
+      <node ref="U4" pin="3" pinfunction="IN2" pintype="input"/>
+    </net>
+    <net code="21" name="/VBLOWER" class="Default">
+      <node ref="K1" pin="4" pinfunction="COM" pintype="passive"/>
+    </net>
+    <net code="22" name="/VMOTOR" class="Default">
+      <node ref="U2" pin="1" pinfunction="VM" pintype="power_in"/>
+      <node ref="U3" pin="1" pinfunction="VM" pintype="power_in"/>
+      <node ref="U4" pin="1" pinfunction="VM" pintype="power_in"/>
+    </net>
+    <net code="23" name="/VRELAY" class="Default">
+      <node ref="K1" pin="1" pinfunction="VCC" pintype="power_in"/>
+    </net>
+    <net code="24" name="unconnected-(K1-NC-Pad6)" class="Default">
+      <node ref="K1" pin="6" pinfunction="NC" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>

@@ -1,0 +1,25 @@
+{
+  "sequence_id": "55555555-5555-4555-8555-555555555555",
+  "event_sequence": 1,
+  "event_type": "accepted",
+  "outcome_status": "accepted",
+  "source": "scheduled",
+  "device_at": "2026-10-16T04:00:00Z",
+  "time_quality": "synced",
+  "command_id": null,
+  "schedule_id": "77777777-7777-4777-8777-777777777777",
+  "configuration_revision": 1,
+  "occurrence_local_date": "2026-10-16",
+  "requested_dose": {
+    "mode": "grams",
+    "amount_g": 50
+  },
+  "estimated_dispensed_g": null,
+  "measured_dispensed_g": null,
+  "measurement_quality": "unavailable",
+  "reason_code": null,
+  "maintenance_resolution": null,
+  "lockout_cleared": false,
+  "nozzle_number": 1,
+  "step_index": 1
+}

@@ -1,0 +1,20 @@
+{
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "device_id": "22222222-2222-4222-8222-222222222222",
+  "event": {
+    "event_id": "44444444-4444-4444-8444-444444444444",
+    "device_id": "22222222-2222-4222-8222-222222222222",
+    "kind": "do_low",
+    "value": 2.5,
+    "limit": 4,
+    "measured_at": "2026-10-14T10:00:00.123456Z",
+    "raised_at": "2026-10-14T10:00:01.123456Z",
+    "applied_revision": 3,
+    "boot_id": "55555555-5555-4555-8555-555555555555",
+    "sample_sequence": 44,
+    "sequence_id": null,
+    "is_simulated": true,
+    "is_read": false,
+    "is_dismissed": false
+  }
+}

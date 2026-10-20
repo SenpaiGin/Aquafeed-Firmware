@@ -1,0 +1,28 @@
+{
+  "sequence_id": "55555555-5555-4555-8555-555555555555",
+  "event_sequence": 6,
+  "event_type": "maintenance_acknowledged",
+  "outcome_status": "unknown",
+  "source": "manual",
+  "device_at": "2026-10-16T05:00:00Z",
+  "time_quality": "synced",
+  "command_id": "66666666-6666-4666-8666-666666666666",
+  "schedule_id": null,
+  "configuration_revision": null,
+  "occurrence_local_date": null,
+  "requested_dose": {
+    "mode": "grams",
+    "amount_g": 50
+  },
+  "estimated_dispensed_g": null,
+  "measured_dispensed_g": null,
+  "measurement_quality": "unavailable",
+  "reason_code": "LOCAL_INSPECTION",
+  "maintenance_resolution": {
+    "resolution_at": "2026-10-16T05:00:00Z",
+    "resolution_reason": "Example only: authorized physical inspection confirmed safe outputs; prior dispensing amount remains unknown."
+  },
+  "lockout_cleared": true,
+  "nozzle_number": 1,
+  "step_index": 1
+}

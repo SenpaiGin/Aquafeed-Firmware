@@ -1,0 +1,1 @@
+{"request_id":"22222222-2222-4222-8222-222222222222","receipt":{"revision":4,"based_on_revision":3,"snapshot":{"timezone":"Asia/Manila","monitoring_limits":{"do_low_mg_l":null,"do_high_mg_l":null},"low_feed_threshold_pct":null,"schedules":[]}},"current_state":{"desired_revision":4,"applied_revision":4,"last_attempt_revision":4,"last_attempt_status":"applied","error_code":null}}

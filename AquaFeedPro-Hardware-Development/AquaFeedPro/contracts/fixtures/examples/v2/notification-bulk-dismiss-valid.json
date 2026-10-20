@@ -1,0 +1,9 @@
+{
+  "protocol_major": 2,
+  "request_id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+  "action": "dismiss",
+  "through": {
+    "raised_at": "2026-10-14T08:20:01.654321Z",
+    "event_id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb"
+  }
+}

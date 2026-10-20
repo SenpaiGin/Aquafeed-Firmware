@@ -1,0 +1,6 @@
+{
+  "protocol_major": 2,
+  "request_id": "22222222-2222-4222-8222-222222222222",
+  "work_token": "example-opaque-token",
+  "changed": true
+}

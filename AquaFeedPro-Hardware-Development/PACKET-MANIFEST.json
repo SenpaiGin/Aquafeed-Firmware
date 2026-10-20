@@ -1,0 +1,1539 @@
+{
+  "prepared_date": "2026-10-16",
+  "timezone": "Asia/Manila",
+  "source_commit": "2d208eca9ad68485f0295eda33b8a5c5adfbeed2",
+  "contract_version": "2.7.0",
+  "scope": "Documentation and curated reference source; no deployable physical firmware or private state.",
+  "files": [
+    {
+      "path": "AquaFeedPro/.github/workflows/ci.yml",
+      "bytes": 1129,
+      "sha256": "80b6e2afcc386a0bcf8f7ab1f649bee2e9f833cdf07efa6a6b9161418fdfd55b"
+    },
+    {
+      "path": "AquaFeedPro/AGENTS.md",
+      "bytes": 7398,
+      "sha256": "c15ff903e9567ecf58978e90fcc011fd227da0735c9bc05297df7d002164ea5a"
+    },
+    {
+      "path": "AquaFeedPro/AI_DEVELOPMENT_WORKFLOW.md",
+      "bytes": 11722,
+      "sha256": "d42e90ccc5856d017dcdd188c79bac42b10b7a37a69cc8b1c68112da395643e6"
+    },
+    {
+      "path": "AquaFeedPro/DESIGN.md",
+      "bytes": 31001,
+      "sha256": "07da21d9fed05f18bf39cb58c49b3737f583d2167192819ce76580d08f1ce564"
+    },
+    {
+      "path": "AquaFeedPro/README.md",
+      "bytes": 2466,
+      "sha256": "6dcee99e00f391734e1b3963bdc216e9dca524822fa00d33b87357d9efeeea29"
+    },
+    {
+      "path": "AquaFeedPro/contracts/.gitignore",
+      "bytes": 44,
+      "sha256": "c711d3a30ff06fa7516c864bd6e3a0e63590153c64b61943be4d4febf4818d37"
+    },
+    {
+      "path": "AquaFeedPro/contracts/CHANGELOG.md",
+      "bytes": 4939,
+      "sha256": "68b262af79ad6616a8e174014f25d730cb76de958c6767aea573e53b6331ae44"
+    },
+    {
+      "path": "AquaFeedPro/contracts/README.md",
+      "bytes": 8727,
+      "sha256": "a6e1ac2534563daa15a0adebcaec7dbf84655596428c7b71cf8eaf9e5a33c7a6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/access-revoked-valid.json",
+      "bytes": 141,
+      "sha256": "997d95137ebd973e7fa2211314af5d4250c9b95f48bb4b53fc7198ae5242b3ad"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/additive-field-valid.json",
+      "bytes": 104,
+      "sha256": "756909661c9f9000b96cdff42fef582be627b43b2565275252c03ba3f3f3367c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/alias-update-valid.json",
+      "bytes": 117,
+      "sha256": "542549d1ff8aedf88c6c5aec24c0cb28988721de6b2e1f69c0445c39f671e866"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-delivery-valid.json",
+      "bytes": 410,
+      "sha256": "2bfb703985bb0b022671d4e83e727bb329caffd9d1a751f9f185ba602189276f"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-replay-out-of-order.json",
+      "bytes": 232,
+      "sha256": "a6bb4367bd785e814ff87357241b1119f71666154b68ee681ec1cd7b6862b13a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-running-no-events.json",
+      "bytes": 61,
+      "sha256": "065e7f1f762adb78b3eefbfd3cdd097c0885ce3ea5a706e6cb8670a9cfb8653a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-terminal-non-regression.json",
+      "bytes": 174,
+      "sha256": "a299c7ab4518e8ec1b21cb7b6f2fee7e5d49d4d24834830a59fc12ac1db46fc7"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-unknown-reboot-valid.json",
+      "bytes": 513,
+      "sha256": "9b706e9cb1d684114e1f6cd3456443f2484347f06f2a372105451420018b233c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/command-unreliable-transition.json",
+      "bytes": 178,
+      "sha256": "3ec384808824c0280bbd23c4ca2f953614826735df62992668919101d362a873"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/config-fixed-dose-valid.json",
+      "bytes": 421,
+      "sha256": "c95e9b3152ed427c46e3418f5b0faf2b9669dfc6c2b10b6752f82b6a91b64e34"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/configuration-replay-applied-valid.json",
+      "bytes": 381,
+      "sha256": "1d313f0d6e47c7161fc8a15023b244be0791eb03fbc64c69991f80dc22219560"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/configuration-request-replay.json",
+      "bytes": 769,
+      "sha256": "2497746d327d9f7b2651c8b66e432968c027c4dd1b08982c96a09b5ebf3c7de5"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/event-outcome-mismatch-invalid.json",
+      "bytes": 542,
+      "sha256": "8ad88a6eed03d635c0cbc71b84135558ec49a82a07031563713a6ade7087a634"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/expiry-after-possible-start.json",
+      "bytes": 229,
+      "sha256": "4a39b814a2f7a5dc1b409d3c3324fce4005807966dcbf616308260fb4a765e26"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/expiry-confirmed-not-started.json",
+      "bytes": 147,
+      "sha256": "287e441e5064ca3df1f65c2546fc305d49bf9141b5527ee7a43ba5b0ba01544a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/feed-replay-completed-valid.json",
+      "bytes": 580,
+      "sha256": "f3faabfca96ec6f37c1f99b28eb4832bd1391f18131911398da45f5e7a524082"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/fixed-portion-valid.json",
+      "bytes": 223,
+      "sha256": "2cf0f50c44d0cb488ac41cc72394bbb21e5b500090953c9d2e17e0a3f5bcf023"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/invalid-calendar-date-invalid.json",
+      "bytes": 581,
+      "sha256": "0daee2db5fc2236fd947e90f01c1ed939de691d551c1b8882531e55777c32d6e"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/invalid-timezone-invalid.json",
+      "bytes": 240,
+      "sha256": "1d6664246612b18da9bb0eb47ffca252d51327ad84c19a103f3a14171a34eb33"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/invalid-utc-calendar-time-invalid.json",
+      "bytes": 303,
+      "sha256": "612ce04a850c0469f5ab4306aa8f7fef3a07c90174afee9f655f67c830cf9c57"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/maintenance-ack-retains-unknown-valid.json",
+      "bytes": 658,
+      "sha256": "75747278945ec6f7168b8da282ce8344b9385e23ba0889bc2cbb44f2d43ed21a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/maintenance-invented-measurement-invalid.json",
+      "bytes": 654,
+      "sha256": "5892ed1053c5bc993dd359625ddc708e3f16a5d1539c0ecf48e4e20f9bb81e92"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/manual-feed-valid.json",
+      "bytes": 194,
+      "sha256": "32917473ca4e6e5557a5763da0ce5f4055808ca3773b360aa345ecea16d658b2"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/manual-idempotency.json",
+      "bytes": 823,
+      "sha256": "aea1713ed4eac6b61810fcefca395ddb89c8210e5bad7a9b32fec483b497cfba"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/missing-request-id-invalid.json",
+      "bytes": 142,
+      "sha256": "c417fd19010f44aa0e26f3ed42e082619e6ba6833009073100ff0dc7f77a089d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/non-finite-number-invalid.json",
+      "bytes": 197,
+      "sha256": "149cff716415ae8b960654273c3cea71466ca6d0b4c87fbd681105f8f574f435"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/numeric-timezone-offset-invalid.json",
+      "bytes": 1703,
+      "sha256": "e5caacbe0dac007893d34ce051e0023478069911467264aeb37792ff0872ea78"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/pair-request-valid.json",
+      "bytes": 227,
+      "sha256": "c5744b83c1be9379d6e443a97c1cbf44a979e00bd99203c8c1d2b7c2ecbc620f"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/quality-null-coupling-invalid.json",
+      "bytes": 695,
+      "sha256": "13d620d89820809c125c3ca6ce69f5653ba1db4953b9a58c37879bf2406c4726"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/reboot-interruption.json",
+      "bytes": 116,
+      "sha256": "952fdef40203465bfb0007e116c828f6e4146d7b11cbbb19c28e2158f673e886"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/run-event-failed-valid.json",
+      "bytes": 543,
+      "sha256": "1571cce80249ee035367e876bd467314425ce44a8fc3567ecca5c37296e84d5b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/schedule-clock-recovery.json",
+      "bytes": 174,
+      "sha256": "fcb41b391854d787c5c4ab76e7d83cfd214e7a20d0d6443c73fcf0052dbe0bd3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/schedule-dst.json",
+      "bytes": 238,
+      "sha256": "0af46ff504ace4900755cb3110c26dd1fb74b213ca445c1332188b5cf4392a06"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/schedule-stable-occurrence.json",
+      "bytes": 253,
+      "sha256": "82c0563644da1f9cacda5b00bc42ff316011481b9dad25639d6fe61cb0c07720"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/scheduled-skip-valid.json",
+      "bytes": 553,
+      "sha256": "dd8bc9b808a085304f36bfe4f48153eb6185c11ed1fb3b0ff393b8d420de94c9"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/semantic-replay-reordered.json",
+      "bytes": 7778,
+      "sha256": "ca600c71fcb9b0450bd7a1e3de3d37248bb767a37b51c692d5fe87bf7aac8171"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/simulator-capabilities-valid.json",
+      "bytes": 528,
+      "sha256": "3822da9339e10af220e3b8719db748b6880084d7af6343195e40bd008baba1d2"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/sync-duplicate-ack.json",
+      "bytes": 1048,
+      "sha256": "ce156f1e80887d2c90d55f56f62e3572dbb48bd2e886292b5b0aaf6a268deb83"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/sync-invalid-clock-valid.json",
+      "bytes": 686,
+      "sha256": "baf0c08de0c5816a31e1593d1466f575f87f13918f2ce2a6287a83ff0be49bfb"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/sync-replay-records-valid.json",
+      "bytes": 1467,
+      "sha256": "696e0a0cd88139ab44137127bbcec0784edb4ee8378383efb42493fcccf7dc07"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/sync-total-sample-cap-invalid.json",
+      "bytes": 25874,
+      "sha256": "043421388cffbe5a60054fb44b0902fd3afcae613b92de1b19f3deb0b7ee1ff8"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/sync-total-sample-cap-valid.json",
+      "bytes": 25675,
+      "sha256": "946155c0a8ccb83f5787f7f5284e32989a45c6820bb134b80ee8db9870d1f98f"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/timezone-case-insensitive-valid.json",
+      "bytes": 421,
+      "sha256": "93814f932b1956ad8eb0c324a85206abb1dc0a1141582826906bf031c3edf8cd"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/timezone-casing.json",
+      "bytes": 217,
+      "sha256": "81972ffeab33dd02f4026b2cca413f3218002709d65e0483379b24554017f3f4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-command-invented-measurement-invalid.json",
+      "bytes": 569,
+      "sha256": "9beb6fbc0827ca92ab290fcf80fae0f7b2ecd0fbc280f204e78d4417179e44c5"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-command-state-invalid.json",
+      "bytes": 577,
+      "sha256": "1ad1a6816500f4df442513bf9be97d42307a242a303972f8d47d907ef8bb6e00"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-command-type-invalid.json",
+      "bytes": 394,
+      "sha256": "0ff0adfcf217b1cbc02c903a070281b748e83285f5caf4ed0a30fb9b035fdf32"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-dose-invalid.json",
+      "bytes": 198,
+      "sha256": "49b5ab798079a7911ea3392382bd34283577a54bd82c8b2f71c304805a715538"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-event-invented-measurement-invalid.json",
+      "bytes": 541,
+      "sha256": "8c8eae4bec890b45a906d1e724b3cfbf508080a67585bd3770ea06ae009fec34"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-late-reliable-evidence.json",
+      "bytes": 147,
+      "sha256": "65db020ae57c8603d0a18ec688f5f9cea5ccf46d97dadb74673dbde280035943"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unknown-maintenance-clear.json",
+      "bytes": 254,
+      "sha256": "a3ba650f0174b317be751adeec3b10f6b4343f1a906086cc5edfcd8c44f20ac4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/unsupported-major-invalid.json",
+      "bytes": 73,
+      "sha256": "98a21327458302326cd1f920f72d1480942be24946f2cad20c6665300d613a27"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/access-revoked-valid.json",
+      "bytes": 141,
+      "sha256": "997d95137ebd973e7fa2211314af5d4250c9b95f48bb4b53fc7198ae5242b3ad"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/additive-field-valid.json",
+      "bytes": 104,
+      "sha256": "1a5b31fef1a611fe4208dbad1638024f79b64d064f867369666d560ea325416c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/alias-update-missing-revision-invalid.json",
+      "bytes": 116,
+      "sha256": "7ade2c2eec3cfea99dc682862459f03090c82a6cb44d281471aee226baa1fd1e"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/alias-update-valid.json",
+      "bytes": 138,
+      "sha256": "2662b180967b0ab85a44a2826efce099eeb0375b16efd7f71cef252654f80dab"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/android-push-token-registration-invalid.json",
+      "bytes": 232,
+      "sha256": "9786c44c05d137eef88d2b5844350378abb927a9d858e8c423b465770b9adca3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/android-push-token-registration-valid.json",
+      "bytes": 238,
+      "sha256": "9df679e155d3208e425f5433c982dee1232349c36ec02294108f0f0d4bcfaccb"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/android-push-token-revocation-valid.json",
+      "bytes": 82,
+      "sha256": "85a4a17c006794a4ffe91aef04f94526bbac646334749562d288fcdc89785f53"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-delivery-valid.json",
+      "bytes": 529,
+      "sha256": "3bd232a42e14df60acbe52128a7b3248c9b1124bd0887b8118d9d64cf58855c3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-progress-binding.json",
+      "bytes": 12283,
+      "sha256": "328ca1dff2bd711265e98ee2a9738b5ee9e92eb9d9cfc84781d7e0c23d740f9d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-replay-out-of-order.json",
+      "bytes": 232,
+      "sha256": "a6bb4367bd785e814ff87357241b1119f71666154b68ee681ec1cd7b6862b13a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-running-no-events.json",
+      "bytes": 62,
+      "sha256": "b506d7baddd294f4faaf7104d34832c94105952ef63b32b5178e18b281f5dda5"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-completed-incomplete-invalid.json",
+      "bytes": 931,
+      "sha256": "b2c74bdc4711c31a2d025b193c51c0893bb0a8d77492299c3d8d029ed1bb0130"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-partial-both-failed-invalid.json",
+      "bytes": 921,
+      "sha256": "38f2ced9662c90c513561b1bdb2650875fe9b9dd0a416b014a3ccb89c843feb2"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-partial-failed-completed-valid.json",
+      "bytes": 924,
+      "sha256": "8f4ae7b10688bdd4a4ad778af28ae18a39e3a660d060fb5f6fb6442301f26658"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-partial-unknown-lockout-valid.json",
+      "bytes": 925,
+      "sha256": "24786bedc68fc3000625659a5517c2960e4c98671a1119382db0c60acb4bc571"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-partial-unknown-maintenance-resolved-valid.json",
+      "bytes": 1068,
+      "sha256": "d309ecfad51cf9984661b5427ae57d7b15da04503d817686f927e011eb613de6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-partial-unknown-unlocked-invalid.json",
+      "bytes": 926,
+      "sha256": "681ff255a7ba6d0ea56a92c4c1eee95fa4c46427ed98e48b2d5237ee035a8ca3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-status-unknown-maintenance-resolved-valid.json",
+      "bytes": 840,
+      "sha256": "b9e366fd3786b0e718effd7e6c969ba0e3f5b6c07eb65b7007f5191dd3208f9c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-terminal-non-regression.json",
+      "bytes": 174,
+      "sha256": "a299c7ab4518e8ec1b21cb7b6f2fee7e5d49d4d24834830a59fc12ac1db46fc7"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-unknown-reboot-valid.json",
+      "bytes": 697,
+      "sha256": "798b14fac5a15e45e37ed73e844e6bca339b350e794fb4467b257571cae73476"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/command-unreliable-transition.json",
+      "bytes": 178,
+      "sha256": "3ec384808824c0280bbd23c4ca2f953614826735df62992668919101d362a873"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/config-fixed-dose-valid.json",
+      "bytes": 453,
+      "sha256": "d70ed532353cb85f148df439d9853fdaf3c76292be365dfdb165b28abcaf2abc"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/configuration-read-valid.json",
+      "bytes": 1141,
+      "sha256": "94fe2e50bbb379e02825be96f2a290d2e2ad32ba7b1cd7d9948ef7e2b655a20f"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/configuration-replay-applied-valid.json",
+      "bytes": 381,
+      "sha256": "1d313f0d6e47c7161fc8a15023b244be0791eb03fbc64c69991f80dc22219560"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/configuration-request-replay.json",
+      "bytes": 769,
+      "sha256": "2497746d327d9f7b2651c8b66e432968c027c4dd1b08982c96a09b5ebf3c7de5"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/device-wait-extra-command-invalid.json",
+      "bytes": 129,
+      "sha256": "5c806e6d7e00a9d61e8a1d1fe4f7176c98751dd8d03c8b06d5fcaa7738e1e756"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/device-wait-request-valid.json",
+      "bytes": 110,
+      "sha256": "e073f1b644f97f4a63bee25ba1fdb8919e813dcabf9ae24ef0988b0e146c8aa7"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/device-wait-response-valid.json",
+      "bytes": 124,
+      "sha256": "ea8c38e2d5dcb53983554538518927d7b8578318625979fd7e6084c1a6e0d0ef"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/do-graph-gaps-valid.json",
+      "bytes": 1150,
+      "sha256": "d2a57603fcef1eae43969ef5d6c1a42c738c958c76774382f0f537acc34c0892"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/do-graph-unsupported-valid.json",
+      "bytes": 903,
+      "sha256": "2d7248dc7da99b36c078b78b578b28d54a812c96b65b74140cb2d6a485623f3b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/event-outcome-mismatch-invalid.json",
+      "bytes": 580,
+      "sha256": "d6e60d0ff1bd34023841eb58a074230deb8ba6cacbbbeaa1fa50ac26231e0520"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/expiry-after-possible-start.json",
+      "bytes": 229,
+      "sha256": "4a39b814a2f7a5dc1b409d3c3324fce4005807966dcbf616308260fb4a765e26"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/expiry-confirmed-not-started.json",
+      "bytes": 147,
+      "sha256": "287e441e5064ca3df1f65c2546fc305d49bf9141b5527ee7a43ba5b0ba01544a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/feed-replay-completed-valid.json",
+      "bytes": 766,
+      "sha256": "e44fbb96fcde68ee88e9713612bd248f07fe26ce1bc966b527f3947225d2c34c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/fixed-portion-valid.json",
+      "bytes": 306,
+      "sha256": "47b73a39b819d258fed63801860a4551c20e8bad21cdfc596de2b122a993c96a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/history-page-unknown-valid.json",
+      "bytes": 1331,
+      "sha256": "e0e4e3f997e554ecbdd82a7b24b1693361183673b86e69c605742fdcc105049d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/invalid-calendar-date-invalid.json",
+      "bytes": 619,
+      "sha256": "9d1c3ebe838547238d896537a772c12592c064dd6acfd51cfcd1939ff5b54f43"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/invalid-timezone-invalid.json",
+      "bytes": 240,
+      "sha256": "6dba97e4b653a5e11545e866632e29bc09f8c14f3553c045279b305e6820c852"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/invalid-utc-calendar-time-invalid.json",
+      "bytes": 429,
+      "sha256": "bddd96f8a5b336800d62d2eb155a2a13e711a82fb697ff51d1d63bb305d00327"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/legacy-v1-manual-feed-invalid.json",
+      "bytes": 194,
+      "sha256": "32917473ca4e6e5557a5763da0ce5f4055808ca3773b360aa345ecea16d658b2"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/maintenance-ack-retains-unknown-valid.json",
+      "bytes": 696,
+      "sha256": "ae28a225de8037efcd3b34877c120f55b2ea92a4818e5bb94ef9901d0c12f316"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/maintenance-invented-measurement-invalid.json",
+      "bytes": 692,
+      "sha256": "f822f68315dd0d2be82c22550a17fef95d55ba1312957a052e729312547f8459"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-both-order-invalid.json",
+      "bytes": 335,
+      "sha256": "187431b2e660f48b8747934b11976f71b600b1de05291838d677e94cbf3c7583"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-both-valid.json",
+      "bytes": 335,
+      "sha256": "b16a610649d0c26c3c49f6c2aa720cb5b7af79f0e5dc449adba20fb504d7023a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-nozzle2-valid.json",
+      "bytes": 277,
+      "sha256": "232c2a8ae4937db491584709778118e48e8796292a04ab9e5a1bbd62256bb8d2"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-recovery-created-valid.json",
+      "bytes": 787,
+      "sha256": "6318341de71c05c68c01e3ab26cf19516473ecc63dac6ab4e11803d7d21394c6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-recovery-unknown-resolution-invalid.json",
+      "bytes": 788,
+      "sha256": "d40d03531fc7e66c46c666f636ae78f9a8bf4404f5db84e8ee4cf255a84c3433"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-feed-valid.json",
+      "bytes": 277,
+      "sha256": "740fa6d3085f328ecbd66173b430c5ce979e12175d1bd9e5f300bb1bde0b8dc4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/manual-idempotency.json",
+      "bytes": 2045,
+      "sha256": "e8f7c98b5caa753c0ab39a645efea1467143444ca15ad1dc0c65a12fe099967e"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/missing-request-id-invalid.json",
+      "bytes": 225,
+      "sha256": "8b7b26bee129dc5f59ee89220b88d144b2fcabeb829a13293b0dd6c5f13840da"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/monitoring-snapshot-valid.json",
+      "bytes": 1714,
+      "sha256": "6e3b5dca84c56b0f4e24c117fa2c7ee4473140358fd91f19a546eb167a3b7aa6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/next-applied-occurrence-valid.json",
+      "bytes": 588,
+      "sha256": "090d3c1c68e567140d7e2ade10c1ef6e4f608649a97fb1bf8b1e7dd663444a3d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/non-finite-number-invalid.json",
+      "bytes": 280,
+      "sha256": "0acce24b87ea2ab8d50773962b33a169ae98e5e2de52bb555b65e3e64e9a44c6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-action-extra-installation-invalid.json",
+      "bytes": 166,
+      "sha256": "35e1ed97847e74ef7a0bbc523d13c9d17acb8b7514149528f857dc97a3b4056c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-action-read-valid.json",
+      "bytes": 102,
+      "sha256": "668c1dc20a04f8809443e1ba0ccd1d56c18f6a936405df32a592ff91ddb0ec07"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-bulk-dismiss-valid.json",
+      "bytes": 228,
+      "sha256": "219703fd780c8aa3a5278acc4cdac33868b1f5b0450b121f398b6e6469cdbbea"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-event-feeding-reading-invalid.json",
+      "bytes": 597,
+      "sha256": "5ef44daa2c7dbe416925788d2d995425539e04247a6c703e3d45cc8b95716c8e"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-event-feeding-valid.json",
+      "bytes": 600,
+      "sha256": "e04cd255ae8a7ee12c136933c4ba78bf933662f2ce85b3816b4a6939e091a762"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-event-read-valid.json",
+      "bytes": 607,
+      "sha256": "c20eb72717863f8261e0054a0493feacac31d8ae6fb8fd5e5b047ecd4f1a2142"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-event-telemetry-sequence-invalid.json",
+      "bytes": 641,
+      "sha256": "00d2381eed19a4834ac0effe0fcb0cde75d2b9f47200ef73503075f8169e924d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-history-cutoff.json",
+      "bytes": 1023,
+      "sha256": "e68e330a6051a365e595ff429781975e0f8b63db94b6a0f5f17d0907560a7b55"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-push-payload-arbitrary-route-invalid.json",
+      "bytes": 156,
+      "sha256": "19dfaed3aad1a9c61d73f6ff0ae1dbfc480772b830e94bb0c23d280e36e524f0"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notification-push-payload-valid.json",
+      "bytes": 145,
+      "sha256": "7f4d36d213b4b2f2dd6196a5cb6059b9fe8c06dd8023ff23f0adaf2e86aafb53"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/notifications-page-valid.json",
+      "bytes": 715,
+      "sha256": "be5de15246c5df175ce6036aefb72a4b3175b4de42465cfb86973a5fa72b1f2c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/nozzle-sequence-safe-stop.json",
+      "bytes": 3072,
+      "sha256": "018308d2f1a6d43591e8273a99e65f6905f2391a3c6cc86b89ecc90ab78c8909"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/numeric-timezone-offset-invalid.json",
+      "bytes": 448,
+      "sha256": "fcfeaf1d1e8d745670597e6cbe5072a67654f10fc05b5f58e71334f5b14d6b27"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/pair-request-valid.json",
+      "bytes": 227,
+      "sha256": "888b29dc7723eea9d3fcce2bb23cc8e21ebef0570efe607ae8ddea5e96537c5a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/partial-both-nozzle2-not-started-valid.json",
+      "bytes": 929,
+      "sha256": "0201078a7a215d4fcb94048e15a5b048ea5fbbfd4a544b5aef7b2767b040b5ea"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/quality-null-coupling-invalid.json",
+      "bytes": 700,
+      "sha256": "2fce63fcc0ed29c2041a64ce57ea3b21df41af21cb1dbcdd6c85b09907d9719e"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/reboot-interruption.json",
+      "bytes": 116,
+      "sha256": "952fdef40203465bfb0007e116c828f6e4146d7b11cbbb19c28e2158f673e886"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-continuation-fault-invalid.json",
+      "bytes": 693,
+      "sha256": "0c48ba5561989c902b1a0c2fb7f807243a6d9dd5bf2bf1708994406ebb046258"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-continuation-step2-invalid.json",
+      "bytes": 694,
+      "sha256": "18b954276a1941b3b947bd14718ebfea2c78903a8418cb8431f4c47064ccd69a"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-continuation-unweighed-invalid.json",
+      "bytes": 695,
+      "sha256": "c1872d826f50973731cf75e90704d542bb3312801c3d2380da626bc1340205ef"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-continuation-valid.json",
+      "bytes": 694,
+      "sha256": "3c9cdbd79e86c6abaf69e78351df65003eb1ff61a60a1e9c682e5dd44e2c0a08"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-failed-valid.json",
+      "bytes": 581,
+      "sha256": "1125ba44d5acc48063ae446ad32f1c78dd5a303165a23659466f097fe4f3f1f6"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/run-event-not-started-valid.json",
+      "bytes": 614,
+      "sha256": "00a90889faed7b11aacfb2193f1da45da617b9b774229064ef924d216a3fb600"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/same-nozzle-schedule-collision.json",
+      "bytes": 597,
+      "sha256": "b5e11013e6a884cf8a8c95959e33887dd4eaf2b45e03633aefd2dfd4cec6905b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/same-time-schedule-group.json",
+      "bytes": 309,
+      "sha256": "0809d8481e20e27eba5bbaa99f251a03d17e74cc087451d15ad4ac9cb5c1975c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-both-reversed-invalid.json",
+      "bytes": 474,
+      "sha256": "27ae3ea24527712d76233e3645d9b0565de894ef0d2d2c8dae1569b61c016dce"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-both-valid.json",
+      "bytes": 474,
+      "sha256": "0abe00080785987ef4f7747c663419abd8a6fd6e19740baea3644c4d7a3dfa3d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-clock-recovery.json",
+      "bytes": 174,
+      "sha256": "fcb41b391854d787c5c4ab76e7d83cfd214e7a20d0d6443c73fcf0052dbe0bd3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-dst.json",
+      "bytes": 238,
+      "sha256": "0af46ff504ace4900755cb3110c26dd1fb74b213ca445c1332188b5cf4392a06"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-legacy-scalar-invalid.json",
+      "bytes": 439,
+      "sha256": "4f433e3fe4cebd011ca46c570dccf40a2e4d2b24a72fa1eb6c3af2f6bfcd7e74"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/schedule-stable-occurrence.json",
+      "bytes": 365,
+      "sha256": "daa72b5465497ef4c21e492b48e611ce70f58317cc49f347c32c5fcaf0c0efce"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/scheduled-sequence-admission-valid.json",
+      "bytes": 600,
+      "sha256": "035c35aba86c9e877843954787ec7ea356baa64e9efb53ef39a2f0b09506fc8f"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/scheduled-skip-valid.json",
+      "bytes": 591,
+      "sha256": "135b541fdbecf2da1879cf71cfd702f36fc2fc26657725cc5f43965425c67f5b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/semantic-replay-reordered.json",
+      "bytes": 3011,
+      "sha256": "c9349705dc43b3e04b6ca57d9eee8ac57a882c8a9707ff5d543433e4a7afcc75"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/simulator-capabilities-valid.json",
+      "bytes": 833,
+      "sha256": "0645e4661b81de62521418672187825dce2a47aa121fd9e31a49fc5494bae896"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-duplicate-ack.json",
+      "bytes": 1078,
+      "sha256": "92789710b0eecfc92ed744d01372016c73d042f55d7cef9818562054fe97ced5"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-invalid-clock-valid.json",
+      "bytes": 691,
+      "sha256": "a5130a78dd36246a431256dc2d99389941ee2a4452d9df2a148dcc37fd0c2198"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-latest-plus-100-invalid.json",
+      "bytes": 25876,
+      "sha256": "7d0f7d6dd3ec5a526b28e9d0d830515fb837b6197f70b35915d8acafe5ad2e4c"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-latest-plus-99-valid.json",
+      "bytes": 25624,
+      "sha256": "7e31120bd06a7a48b985c9b80a3228e447de2e6db31816c47aa72ebda0958ee0"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-replay-records-valid.json",
+      "bytes": 1510,
+      "sha256": "4fc23fb0f55fa92dc0b9ac2e3caf2ff6af346aa8873158cb0944748a267cafd3"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-total-sample-cap-invalid.json",
+      "bytes": 25880,
+      "sha256": "d327ed68587b42d84906ce3f32c9b28c5a323978d14194f0f4e7b5b96443d621"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/sync-total-sample-cap-valid.json",
+      "bytes": 25681,
+      "sha256": "5130bad1434f1154fcf5b0ef4ff5e86d739f48661009e42f79944064f006717d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/timezone-case-insensitive-valid.json",
+      "bytes": 453,
+      "sha256": "71a9a26ea043d9d94bd043c331e9231f6c7bfefd01cf859a95b6d810f3b79507"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/timezone-casing.json",
+      "bytes": 175,
+      "sha256": "b3d9794bd9cce3240fdaca818af8b98b7fecb34c95a4fbdddcf73382a0209376"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-command-invented-measurement-invalid.json",
+      "bytes": 753,
+      "sha256": "5e56152e9e613b1fafb3033fdb57e1d883dd7cc900d5e36d70cb87f3e56e7844"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-command-state-invalid.json",
+      "bytes": 760,
+      "sha256": "700fdd8cdf6a4e9c145886a15fac98c47ee7156a585c24cfe05a9ce77333176b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-command-type-invalid.json",
+      "bytes": 482,
+      "sha256": "ec2436c2c12e073654111f07d3970218afc5930d06e2454114770744fb695a88"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-dose-invalid.json",
+      "bytes": 281,
+      "sha256": "1fb0f45dd8d7eb7847afcdc0553524ceba7f2702bfbf715238a002d7816ae1eb"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-event-invented-measurement-invalid.json",
+      "bytes": 579,
+      "sha256": "237bce934be3017033edfaec7bfcae6f12913f1f4679ee9cac7e9449bd279b23"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-late-reliable-evidence.json",
+      "bytes": 147,
+      "sha256": "65db020ae57c8603d0a18ec688f5f9cea5ccf46d97dadb74673dbde280035943"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-maintenance-clear.json",
+      "bytes": 254,
+      "sha256": "a3ba650f0174b317be751adeec3b10f6b4343f1a906086cc5edfcd8c44f20ac4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unknown-nozzle-invalid.json",
+      "bytes": 277,
+      "sha256": "e9841ea1a1585a4dc3b3e45c51aac8e5a7d0f2ed64923f82f5b1fdcc8dcb8b32"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/unsupported-major-invalid.json",
+      "bytes": 73,
+      "sha256": "0e9265acca309d2ddf181594cf4dde3be35c218533393c5006883f95901c0905"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/v2/weekday-zero-invalid.json",
+      "bytes": 443,
+      "sha256": "c4765f94252a4ee902d9afd3f92adab1c1d69a30d62b6463038ed217ff91d2cd"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/examples/weekday-zero-invalid.json",
+      "bytes": 411,
+      "sha256": "f902e26f2ee361cef1f29e16c57689a54fa9fa956cdc81dbf8364abe141eb8c4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/manifest-v1.json",
+      "bytes": 13183,
+      "sha256": "01f6fa3fd9b50d61c94c8a635f3b1945cd9285a5bc23b45fe5271cac9e0ad27d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/fixtures/manifest.json",
+      "bytes": 36935,
+      "sha256": "e19b8cd375edbdc532eefa9598e8c6d616882466f1e41c1b6907cf76050a3d03"
+    },
+    {
+      "path": "AquaFeedPro/contracts/openapi-v1.yaml",
+      "bytes": 20108,
+      "sha256": "644253776d6c36c7025224110ea58ba971cc270714ddc5972c81c24b9878192b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/openapi.yaml",
+      "bytes": 43891,
+      "sha256": "16336c41dd7d150f353689251939cd0d5f01ea6b1000f80ba5d1f3cda494cee7"
+    },
+    {
+      "path": "AquaFeedPro/contracts/package-lock.json",
+      "bytes": 3458,
+      "sha256": "6c53853dc5249fc485c6b63108d1a3c67cdb277acbb572ecfe2c82ddd74b3e17"
+    },
+    {
+      "path": "AquaFeedPro/contracts/package.json",
+      "bytes": 264,
+      "sha256": "81e401094c6474b67f6b2ead71d0613b8f4b03c047b1f13cfd6553f3007e5953"
+    },
+    {
+      "path": "AquaFeedPro/contracts/requirements.txt",
+      "bytes": 48,
+      "sha256": "3cbe35fab2cd86ab24064beeaf45d0a5a31981045834502db69493760f9146f4"
+    },
+    {
+      "path": "AquaFeedPro/contracts/schemas/v1.schema.json",
+      "bytes": 36714,
+      "sha256": "eff60359ef512508d4324e67b6d974ebe392d0e199bfaf0bd4d5c210d21c8be1"
+    },
+    {
+      "path": "AquaFeedPro/contracts/schemas/v2.schema.json",
+      "bytes": 107393,
+      "sha256": "5ba7e38429bb8aa211e3b1e1e902e1037c1651443cdeef5bb6bec0f6731ee160"
+    },
+    {
+      "path": "AquaFeedPro/contracts/scripts/_build_v2_schema.py",
+      "bytes": 3501,
+      "sha256": "750afbc731541bcd76acacab6a05a88a411607c1f9125ce1248b60cd761d211b"
+    },
+    {
+      "path": "AquaFeedPro/contracts/scripts/_convert_v2_fixtures.py",
+      "bytes": 14172,
+      "sha256": "b90932544d1b7af259098cf7c6f1c615b610ddb89eef909909120d17de631f8d"
+    },
+    {
+      "path": "AquaFeedPro/contracts/scripts/validate.py",
+      "bytes": 38836,
+      "sha256": "85268e62bdfed686b525108c706a429186384a552b274c69a6f958a516396d69"
+    },
+    {
+      "path": "AquaFeedPro/contracts/scripts/validate.ts",
+      "bytes": 47387,
+      "sha256": "c5853672ee48319bc38c2221e759a42f2f83e97f2b6c4ce75ae4459ab340d183"
+    },
+    {
+      "path": "AquaFeedPro/docs/ANDROID-HARDWARE-HANDOFF.md",
+      "bytes": 18608,
+      "sha256": "c9cab0321a89f0489b396ea6c063c375ceb3feeee10f2842441beddd57dd424a"
+    },
+    {
+      "path": "AquaFeedPro/docs/ART-45-ANDROID-BUILD.md",
+      "bytes": 3610,
+      "sha256": "b722e5544549da582cac2c79f5083d6db0eb06c93b0a922e14c6a1fa51bf583c"
+    },
+    {
+      "path": "AquaFeedPro/docs/ART-96-ANDROID-PUSH.md",
+      "bytes": 4700,
+      "sha256": "a339b6560558d7986db1544e143906769c19655a43f36a706602ba30377a1032"
+    },
+    {
+      "path": "AquaFeedPro/docs/HARDWARE-DEVELOPER-HANDOFF.md",
+      "bytes": 46541,
+      "sha256": "4a9a40a61e97d934712d8da636e1500f9ab6d5e84af76f9643f0b0727854faa3"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/ACCEPTANCE.md",
+      "bytes": 19542,
+      "sha256": "317389d9b1a10593a8fb61c6c9e9e4833ca62b43a4f9c87b9fa952b56d21e062"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/DECISIONS.md",
+      "bytes": 7739,
+      "sha256": "0c1cc2fc06f005071c0c9c981b1b119087df0f914c7d36abf5adb56d5b7e08fe"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/PROTOCOL-REFERENCE.md",
+      "bytes": 33503,
+      "sha256": "e0a4b94660763e87b89e7433cea53569ffd7512cfd30fc23718cab0402f7e558"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/SOURCE-SCAN.md",
+      "bytes": 14739,
+      "sha256": "771e74102ab11e0c229cd2f85263c0ef1e5b3af8c7bedcad821bd73ebab1075f"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/01-first-sync.json",
+      "bytes": 646,
+      "sha256": "708a01a130cf43e9bedb3a18ca23d649070079e79123f446830357e0889fdb0f"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/02-live-sync-do-unavailable.json",
+      "bytes": 916,
+      "sha256": "43acadf0cb221f84f0945be3c5f2d1b37fe8bf8e669bd3afeec7c83939c79ca9"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/03-sync-response-with-command.json",
+      "bytes": 1176,
+      "sha256": "0ab38bd773b40eca496336d7ff74648c69f241568422015bae01a0667941995f"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/04-configuration-both.json",
+      "bytes": 787,
+      "sha256": "9cd1ea2e0a4992486dda5f05014c7aa15246ed05fad080afce0e6eec8bc4be21"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/05-wait-request.json",
+      "bytes": 114,
+      "sha256": "6b9414be1b515e40046df20a9d4f1b7672c19f9b27687ccfeace29bd4f22f252"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/06-wait-response.json",
+      "bytes": 147,
+      "sha256": "c9da2f075014d7ad706cc260e5ecde43bca2fb011d8f9345041b1d03258308d0"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/07-pairing-window-request.json",
+      "bytes": 86,
+      "sha256": "a8d986a64a676d613102c3542b68a18be52e651722b97d785782745f278aecd0"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/08-pairing-window-response.json",
+      "bytes": 225,
+      "sha256": "5d9168a0cd6f4a0a8474c235c9dc3832d21a04d9d0b516859dbb0abdff4c8190"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/09-manual-both-events.json",
+      "bytes": 4505,
+      "sha256": "0e7dbeede5bacaaeda79cc3f2f992e5818492bdd41afd158b312a223244fc116"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/10-unknown-event.json",
+      "bytes": 704,
+      "sha256": "8233293dfd58941ce8b11910fde1b461248e6b2fb6d0260e7756515cce90f25b"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/11-maintenance-event.json",
+      "bytes": 915,
+      "sha256": "19e2aac667d5cbf5114f6424c7a906de6c7075d4416c1c37520ab5fa7431b8aa"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/12-scheduled-accepted-event.json",
+      "bytes": 709,
+      "sha256": "0ca37deca4c8fc5dc48fc3ec6921d0b12b62685327bb69ea3d9e7024c1a12454"
+    },
+    {
+      "path": "AquaFeedPro/docs/hardware-handoff/examples/manifest.json",
+      "bytes": 1411,
+      "sha256": "c9151c5054461d060f06e35b6634b26dc7e468e28b757b59a28c32df6746eccf"
+    },
+    {
+      "path": "AquaFeedPro/docs/requirements.md",
+      "bytes": 27464,
+      "sha256": "3e0b5930974c470f8afeb9461137e2146a041d5cce39d19f661ea9f4ed04794e"
+    },
+    {
+      "path": "AquaFeedPro/docs/toolchain.md",
+      "bytes": 8296,
+      "sha256": "506020457d2b11eb343ebe8637ede829712215ae26d1931a94bab20e68773b50"
+    },
+    {
+      "path": "AquaFeedPro/mobile/package-lock.json",
+      "bytes": 493506,
+      "sha256": "c51c2612abc7cbd5b3bddaa4eab24738a676bf2abe9248c376887ba62b511e7c"
+    },
+    {
+      "path": "AquaFeedPro/mobile/package.json",
+      "bytes": 2811,
+      "sha256": "075ed83fee72e6da2b45d249e9039779b2d01b1a4813831659e09f8e069138ef"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-alerts.mjs",
+      "bytes": 6348,
+      "sha256": "0b929ace13a041111dc1222d37faf7dea4beabab4a1f2177d39dcc4eceda91fa"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-art27-monitoring.mjs",
+      "bytes": 16431,
+      "sha256": "599c93da147ff79df0ac5ff5bf215c2e9f01dfb8f885915c7401062d005761ed"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-art31-api-parser.mjs",
+      "bytes": 18438,
+      "sha256": "e0846fa1de56c489e3c399c31fc08ee341179e51c14a0c9f9b0e37fe0953040f"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-button-state.mjs",
+      "bytes": 887,
+      "sha256": "927594d2d5a8c6c1cc15d58b07a4ce8d499ff7139343be2747b0ef5fa6222389"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-device-access.mjs",
+      "bytes": 32012,
+      "sha256": "9f231a9c344022770f845e63981a0c42d6c995f42a40c747582744f635f0376e"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-error-text.mjs",
+      "bytes": 593,
+      "sha256": "9dc11220a1f514768916c9af2f6e89c12c56454969bbb6884b2abfb1ce45b76b"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-feed-status.mjs",
+      "bytes": 4058,
+      "sha256": "157bf0db09da6f58254509416c70f045bb99bcf93c10e311eea753bf5943d081"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-manual-feed.mjs",
+      "bytes": 22010,
+      "sha256": "b27e035dc5620f54cc69c621ebf20f476ffd0d724033b063f70e464248e7f177"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/check-schedules.mjs",
+      "bytes": 19335,
+      "sha256": "36e4a50efe84c1c5e787a3ba9c42f62753ca5717aafa00d467efcfb0ec4175d0"
+    },
+    {
+      "path": "AquaFeedPro/mobile/scripts/reset-project.js",
+      "bytes": 3712,
+      "sha256": "ba6fa92873b884620c1d57e2456f343ea0ab6443bc513a9856a93c26262a8f7e"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/(tabs)/_layout.tsx",
+      "bytes": 3470,
+      "sha256": "5eaedeba7b3e8fa60d059b7f946721f988df1c1df03baaea3b3618ca96d06f80"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/(tabs)/device.tsx",
+      "bytes": 8730,
+      "sha256": "0c9169ecb66af2283bee2483b7b27c803e43831ba255f319ff5fd9649c20e100"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/(tabs)/history.tsx",
+      "bytes": 12949,
+      "sha256": "aacba40de0f6a35d70b8e090a3e9a710d0a91ae65486e30b86fef9bc0d056e90"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/(tabs)/index.tsx",
+      "bytes": 38842,
+      "sha256": "be334c681bb7bf0daa48949e6cd334234948c714ca7063a874326b962fa526c6"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/(tabs)/schedule.tsx",
+      "bytes": 27207,
+      "sha256": "36d1c75b301073e44dd8e36e0c80c25cc587ee0c9f17f568de03a946d181fc41"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/_layout.tsx",
+      "bytes": 3684,
+      "sha256": "d1b6c7d242975f8e066c10750166fea678bb80b1426b9f86cab96d410727496a"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/dev/components.tsx",
+      "bytes": 12970,
+      "sha256": "e599369c140b31bac3968142ff1467c4f9bf59bf54b2f537846b295e9b81dd5d"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/devices/[deviceId].tsx",
+      "bytes": 17539,
+      "sha256": "f1f54f2656947d2408354a1567b6b1eedbfa5a44127f45e2ab0b009e395ef93a"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/devices/add.tsx",
+      "bytes": 21828,
+      "sha256": "ba04f3c8c152610c55c848c8137331f45e33aa6a8c17d61dd37c38ab61df555f"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/feed/confirm.tsx",
+      "bytes": 28678,
+      "sha256": "25ac37cb978e9580778926b74bb02593deeba86411e9d93e9960857071580f8e"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/history/[runId].tsx",
+      "bytes": 8011,
+      "sha256": "ccbc59a9ae205e46b253d5b0055c5e77b75e5604b04a74db6a45c827373fe48a"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/notifications.tsx",
+      "bytes": 5209,
+      "sha256": "fc1016b8b6ae22f1680a1f1275a49febb05165eea54daa986a684e18189d734c"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/schedules/[scheduleId].tsx",
+      "bytes": 359,
+      "sha256": "7c0a38dd9fcbab38b4831dd069b79a678c32988a4bbf11a42f871037ffe17e1c"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/schedules/new.tsx",
+      "bytes": 141,
+      "sha256": "698f2210a28ef8f5a430b71b0a62ba6ea501cc43b2486385e4402795ae20bf04"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/app/settings/[field].tsx",
+      "bytes": 8494,
+      "sha256": "a85768ab47e4f522d55c748a99903bed175aebe89392b94d3c41333debafa8cd"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/components/app-shell.tsx",
+      "bytes": 5229,
+      "sha256": "502859a60705d1741455649f616158aec2b709b1738840a9087d4a5ccd1d4296"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/components/bento-kit.tsx",
+      "bytes": 41125,
+      "sha256": "d3309c11fe39dfe17fe5273d3e21389f13b8bb5d88f14f9e95ee3f9fb5c456f9"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/components/button-state.ts",
+      "bytes": 412,
+      "sha256": "7f8a5ca2ebe124de812d0bfda2b40b1b6c8c8c6050cc60d4176740bab790ffe2"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/components/feed-status.ts",
+      "bytes": 5819,
+      "sha256": "e763edb24baa2e0d7bae948c5c3eb5091a103846c4f80b02c689a699ab209fed"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/components/schedule-editor.tsx",
+      "bytes": 21705,
+      "sha256": "42a913053515411628df058bbe3736e3d8c960437451fcfd547a999d30c5f4a9"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/constants/theme.ts",
+      "bytes": 3488,
+      "sha256": "113d73a1e78eca1038e01f6c424c11db8b265f82ebd7cb8b8fe3b375a77ef74e"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/alerts.ts",
+      "bytes": 25220,
+      "sha256": "c1eefa34434467cf5feaac8dbd4d368e03160a9f79b7570a31c95079cdb83f95"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/device-access-state.ts",
+      "bytes": 6961,
+      "sha256": "8c73f4e8b98717a5ac745da2a89365286a6daf3f9caed543da77720b170f6e9e"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/device-access.tsx",
+      "bytes": 54194,
+      "sha256": "932d8f37075bf38af358fbee4bad901bf16d6738f7af2f6950ac85019db56788"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/device-changes.ts",
+      "bytes": 1074,
+      "sha256": "f4ed8cecffda3d8be36d6b536b1886466535b5125b760200defaff0e58b7eeb1"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/error-text.ts",
+      "bytes": 382,
+      "sha256": "b5edcd27061bfb341b152d5f50e38c89ab715dcedd280f8f39e55003a9d2c40c"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/feeder-settings.tsx",
+      "bytes": 20078,
+      "sha256": "940ab2f1110dc6c3ae037e55eb869447640e4b6511c900f2cd5494e6261ba051"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/install-crypto.ts",
+      "bytes": 375,
+      "sha256": "b78737e21f30d7c0cb03ca7e1c35d178feae9808b04e964dd8d0781060e3d29a"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/manual-feed.ts",
+      "bytes": 25488,
+      "sha256": "8d9889118913cd24140b3b10271c72788de1ae958fd8150ec61e1df62fa0eafd"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/monitoring.ts",
+      "bytes": 20776,
+      "sha256": "119886bda975479ed6b1ac2f85a21d13641c1ab84d786bbc7eeddeeb45b2f038"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/notification-controller.tsx",
+      "bytes": 18665,
+      "sha256": "b8fad8077f549b38aa549d48a965c3e4a87c14074fdc7d46e359843e26119e04"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/push-payload.ts",
+      "bytes": 949,
+      "sha256": "ba7e4b7656d3870f89aa5f08685f6fc794db8966df57340ac2f6998966d86e86"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/schedules.ts",
+      "bytes": 27503,
+      "sha256": "43e0bfd21a4a8eeb4128c12fa5c0742af0664a57004c1eacd31208adf8bde5c2"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/secure-session-storage.ts",
+      "bytes": 4508,
+      "sha256": "20ed04a62eea63bd82fcaa228549c6118aa2dc0938cfa044d99093df7999840b"
+    },
+    {
+      "path": "AquaFeedPro/mobile/src/lib/supabase.ts",
+      "bytes": 1344,
+      "sha256": "b33e4334076930aae80b0e1fe56fb4fbc42225458cf0c535a8734f6cb1e8b81c"
+    },
+    {
+      "path": "AquaFeedPro/planning/DELIVERY_PLAN.md",
+      "bytes": 15951,
+      "sha256": "b015cfd3d39af3dbcacf0b753164b864b0a7ce0ab66af0496188baeb429c65cf"
+    },
+    {
+      "path": "AquaFeedPro/supabase/README.md",
+      "bytes": 3668,
+      "sha256": "55b89cd89c7860647c77918a41d9a775aea93201108ecbfa81d812a7062ae0cc"
+    },
+    {
+      "path": "AquaFeedPro/supabase/config.toml",
+      "bytes": 162,
+      "sha256": "27e301e4784acdfcfc0ff3ec768c1d9bf20ff39c7db5811b0112f89a742d4e49"
+    },
+    {
+      "path": "AquaFeedPro/supabase/database.types.ts",
+      "bytes": 34319,
+      "sha256": "f6c1e1b86bb0e4497af8aa8afc9bcbd4b6d647a52fdab66eab00dc8eec52d667"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/_shared/device-access.ts",
+      "bytes": 6765,
+      "sha256": "a047a28409dfdca02839c1010efaa2b0e092a1bc0a65b6dbf05e19ce192b7246"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/_shared/push-sender.ts",
+      "bytes": 15496,
+      "sha256": "5cd778653f8453bd33b4873a47e121234c36a549571566b1500e101327b5d817"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/_shared/telemetry.ts",
+      "bytes": 5692,
+      "sha256": "5fcf0dee32d72ab0bd9221175c4f4656cc246881ce1ab8eed3166c5709c6e14b"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/app-api/index.ts",
+      "bytes": 87797,
+      "sha256": "5da18112750b3592ae912eb9ea64b5cb1802d1a96faebfb1826480dcf1df4c4e"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/device-api/index.ts",
+      "bytes": 30247,
+      "sha256": "d254f9b9830665213a1b57e9ff7e3b2f62e8a207342c3f87adffe33b50815d8d"
+    },
+    {
+      "path": "AquaFeedPro/supabase/functions/push-sender/index.ts",
+      "bytes": 880,
+      "sha256": "05ff37263582a94eaa929bb3db507605d4beb9d38dfc3315edf338887bbfc8e6"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261002194139_art7_two_nozzle_v2_secure_data_foundation.sql",
+      "bytes": 28222,
+      "sha256": "f65546e1acf59b74f9b639b2ee954f1790c6552a83790de77860c9b301958187"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261002205502_revoke_public_rls_auto_enable_client_execution.sql",
+      "bytes": 1151,
+      "sha256": "c69d34b1747f833860a6a7061652b3df26d03c9a111ae8dd3545d297db387087"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261002213633_art38_pairing_and_access.sql",
+      "bytes": 18037,
+      "sha256": "792e3f920e8363a3083959e3709ddcce7f92ad62fd872e5ee4c491fab2b5bae9"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261007065452_art31_manual_feed_execution_history.sql",
+      "bytes": 47991,
+      "sha256": "49d82171a4d9bba6eb5a8031e6080180441c964cf55f90671ec44b51cb94bdf9"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261009070000_art31_stop_accepted_remainder.sql",
+      "bytes": 1793,
+      "sha256": "1b323ea99157231125d295cc13941d2dedf3a9ad7114d578307803d31af42b0b"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261009120000_art33_independent_nozzle_schedules.sql",
+      "bytes": 51597,
+      "sha256": "516c2683c9f3aa21f6cc40add8da5e60820b6ebf92d9d3545c89b0b4d481303e"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261009130000_art27_live_monitoring.sql",
+      "bytes": 20627,
+      "sha256": "033d44df9310457127bc1e8342ef93f26278661ea665c99183766a122dc8d0c6"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261009190657_art27_sync_telemetry_nullable_latest_sample.sql",
+      "bytes": 8730,
+      "sha256": "8386b1e794809ffdaa083e4629d241a17c25cc61370f6c20e1140da7a2a59cc1"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261009193033_art27_enable_monitoring_settings.sql",
+      "bytes": 4602,
+      "sha256": "437db26674b46646d6f641462f653549310bbd34e7e109b46bd16491e97e909c"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261014054119_rt01_device_wait_and_realtime.sql",
+      "bytes": 1214,
+      "sha256": "25580e7f76e5b21eb63a63f2cb9abc64150aa8879428e95ce21af04d7eb770c5"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261014081014_art95_server_alerts.sql",
+      "bytes": 22190,
+      "sha256": "69d3fdfafbb1501830dba38871b96860a433a670210c5baedea2734da665360d"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261014125042_art96_android_push.sql",
+      "bytes": 33755,
+      "sha256": "5e37e60bdc88589e28fcf10c79e170a22cae256080f8d3d7c73604a624bcc850"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261015060257_art97_inventory_profile_durability.sql",
+      "bytes": 44855,
+      "sha256": "813f7edae5301ff4ae271e5736fde3a5e6d5f86e592d364ed91ce6bdfc21f5a1"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261015113815_art97_stock_policy_manual_recovery.sql",
+      "bytes": 19876,
+      "sha256": "879ae858f7df0e1aa4b6ba7c6d09a57cfdf6813048cc6ef2c6b4671faa5ec174"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261016090000_art98_scheduled_both_continuation.sql",
+      "bytes": 36657,
+      "sha256": "8fe4be803e30039b19ef5f9109cf3a9b0346a23640f17be63bef40fd123ed44a"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261016100000_art98_continuation_replay.sql",
+      "bytes": 2924,
+      "sha256": "62556afc04331bc95e8b89d5038e0a7ea3290759069add861c87041bbf5f25d7"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261016120000_art100_feeding_alerts.sql",
+      "bytes": 6555,
+      "sha256": "a224f80bafd44e4c1ff94d2f3c3b844f288a72fba0477dce2e59f77ccc5b3c0b"
+    },
+    {
+      "path": "AquaFeedPro/supabase/migrations/20261016140000_art102_shared_device_metadata.sql",
+      "bytes": 10948,
+      "sha256": "f0721976a4ba8444cc2395c68358e74be2db0fc6e2349ea32bc153f405dd1f88"
+    },
+    {
+      "path": "AquaFeedPro/supabase/scripts/art31_simulator.py",
+      "bytes": 174711,
+      "sha256": "a3c467403bf34addc981496cd13b0f91e6ae8dd50490bc7aeffffda54d6bc38f"
+    },
+    {
+      "path": "AquaFeedPro/supabase/scripts/check-d2-provisioning-recovery.mjs",
+      "bytes": 3175,
+      "sha256": "92bd0a50ee2c0d9913ea67f325004f77d83d761ba075d591726a97e0bc420270"
+    },
+    {
+      "path": "AquaFeedPro/supabase/scripts/provision-d2-devices.mjs",
+      "bytes": 12879,
+      "sha256": "2291d15498c6344b96edc1e12d7fe8b80977636a332b4bc586b5e434f71afdcc"
+    },
+    {
+      "path": "AquaFeedPro/supabase/scripts/run-demo.ps1",
+      "bytes": 2046,
+      "sha256": "4fc8d7831bc62b80fbf1b7b52f86b6cc4b67cc42fdc2b9e71d674c6360db9204"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art102_shared_device_metadata.sql",
+      "bytes": 8518,
+      "sha256": "d6aa092995fbd701ed241e27c7a440d8e8a2bcd3b5f2c376e6ce4e858e847c00"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art27_live_monitoring.sql",
+      "bytes": 30341,
+      "sha256": "52211ab1d9684e418a9cd30f5c8c6627657049a0b0f2a29074d7132a68fa1333"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art27_monitoring_settings.sql",
+      "bytes": 9883,
+      "sha256": "caaa9238375a01cbe8d3be170a059d73d0c974166bef7ab534b5e24274eca8ba"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art31_manual_feed.sql",
+      "bytes": 66414,
+      "sha256": "92f95d6ae827cdec1fbbdb105e5700289674b0fb4f4ca2701f25ac91b5fa02ee"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art33_schedules.sql",
+      "bytes": 53789,
+      "sha256": "73a6794bcd0dad00b06fc2b0eca62446dd2210bf7e100c1ca0d4fcf61e11eec9"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art38_device_access.sql",
+      "bytes": 17967,
+      "sha256": "94b9314079eea222459d951d75420116b6dd13692c87acc40261f93579074798"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art7_two_installation_access.sql",
+      "bytes": 22239,
+      "sha256": "1ec936a9d7c6e288935adfc8ffaf07c8c1928dde21bf6a2c689154337cbb5eb6"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art95_api_route_check.mjs",
+      "bytes": 18872,
+      "sha256": "b8149bee66548fb2e6146ad8ce54493e5a1a828c351a748b2fdef54d1d5272ae"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art95_server_alerts.sql",
+      "bytes": 44092,
+      "sha256": "be0fe19605f906bdba0c85faecaf68821018fe149adcf9a4dd943b5f5c8504e9"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art96_push_delivery.sql",
+      "bytes": 27555,
+      "sha256": "12dee41d5e1e448d4525e0060cfd91616caf51ddb998d3936c3a6667d98b8be9"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/art96_push_sender_check.mjs",
+      "bytes": 13686,
+      "sha256": "a0fe8ee7f9214f0cd58c66e9a33e2f4ea9ee885640cd0cc155a324b27b614f3f"
+    },
+    {
+      "path": "AquaFeedPro/supabase/tests/rt01_device_wait_and_realtime.sql",
+      "bytes": 4991,
+      "sha256": "931affbfd8f1186a80f602339dfcc76e3fee226db20352e7dc133c60b7780cec"
+    },
+    {
+      "path": "README-FIRST.md",
+      "bytes": 2893,
+      "sha256": "f377b39b6eab6314fe355b64d8225633520e68a7c5667dd2ced174aa811e5c07"
+    },
+    {
+      "path": "fishFeeder/src/calibrateLoadcell.py",
+      "bytes": 924,
+      "sha256": "c7cd04388114ba851ad8a2c45799f2bf90b1213981cf824e84d195f1281b0971"
+    },
+    {
+      "path": "fishFeeder/src/loadcell.py",
+      "bytes": 2769,
+      "sha256": "7484f3982286afe9326105d4feab21de16ec331c0db30de662f07d4af65061c7"
+    },
+    {
+      "path": "fishFeeder/src/main.py",
+      "bytes": 771,
+      "sha256": "da5eb9a5ab57d02be4e8430c22576334a78d5724a45a05d317f09f467c5aa35d"
+    },
+    {
+      "path": "fishFeeder/src/motor.py",
+      "bytes": 2243,
+      "sha256": "255a092348edc9b68bc10ee6c910fb96f9292acd910dd00d2b129330c35036a4"
+    },
+    {
+      "path": "fishFeeder/src/servo.py",
+      "bytes": 2719,
+      "sha256": "6cb369073976d485bec6526e3f9de5d43b03daf215976ba6562e16a15a732d43"
+    },
+    {
+      "path": "fishFeeder/src/test/hardwaretest.py",
+      "bytes": 2880,
+      "sha256": "f20ccc0363ebfc1aae4ba9671116a576a592e75c0688725b7eb13de205eeb34b"
+    },
+    {
+      "path": "hardware-wiring/AquaFeedPro-wiring-draft.md",
+      "bytes": 13989,
+      "sha256": "dad4f428ab210211cb6d1d607651d99641935b1c9a4922c50223e57426faf239"
+    },
+    {
+      "path": "hardware-wiring/kicad/AquaFeedPro-Wiring-preview.png",
+      "bytes": 146997,
+      "sha256": "29e318291a5dc206fcd1368d2a9150218b8a314c4a97ec44d19f850f25ed885c"
+    },
+    {
+      "path": "hardware-wiring/kicad/AquaFeedPro-Wiring.pdf",
+      "bytes": 139138,
+      "sha256": "e9b52ce552ed8ba535aae3c350e834a4b2b825206477d2a3e954f77243df750b"
+    },
+    {
+      "path": "hardware-wiring/kicad/AquaFeedPro-Wiring.xml",
+      "bytes": 15338,
+      "sha256": "dba5f0bd1890e5478ceb22d575fd56b4b1b38580e95ed022fbfc091a7309a7ce"
+    }
+  ]
+}

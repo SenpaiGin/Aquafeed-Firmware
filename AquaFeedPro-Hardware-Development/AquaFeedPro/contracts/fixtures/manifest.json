@@ -1,0 +1,1098 @@
+{
+  "contract_version": "2.7.0",
+  "schema": "../schemas/v2.schema.json",
+  "fixtures": [
+    {
+      "name": "manual-feed-valid",
+      "file": "examples/v2/manual-feed-valid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "valid",
+      "reason": "supported grams dose and required v2 identity fields"
+    },
+    {
+      "name": "fixed-portion-valid",
+      "file": "examples/v2/fixed-portion-valid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "valid",
+      "reason": "fixed portion is identified without invented grams"
+    },
+    {
+      "name": "additive-field-valid",
+      "file": "examples/v2/additive-field-valid.json",
+      "schema": "PairingWindowRequest",
+      "expect": "valid",
+      "reason": "unknown optional additive property is tolerated"
+    },
+    {
+      "name": "pair-request-valid",
+      "file": "examples/v2/pair-request-valid.json",
+      "schema": "PairRequest",
+      "expect": "valid",
+      "reason": "installation redeems one challenge without a machine credential"
+    },
+    {
+      "name": "alias-update-valid",
+      "file": "examples/v2/alias-update-valid.json",
+      "schema": "AliasUpdateRequest",
+      "expect": "valid",
+      "reason": "shared feeder name and location replaced against the revision the editor loaded"
+    },
+    {
+      "name": "alias-update-missing-revision-invalid",
+      "file": "examples/v2/alias-update-missing-revision-invalid.json",
+      "schema": "AliasUpdateRequest",
+      "expect": "invalid",
+      "reason": "a legacy write without expected_revision could silently overwrite the shared name",
+      "failure": {
+        "path": "/expected_revision",
+        "keyword": "required"
+      }
+    },
+    {
+      "name": "access-revoked-valid",
+      "file": "examples/v2/access-revoked-valid.json",
+      "schema": "AccessRevokedResponse",
+      "expect": "valid",
+      "reason": "access revocation identifies this request and device"
+    },
+    {
+      "name": "feed-replay-completed-valid",
+      "file": "examples/v2/feed-replay-completed-valid.json",
+      "schema": "CommandStatusResponse",
+      "expect": "valid",
+      "reason": "an idempotent replay returns current terminal state instead of implying it is newly queued"
+    },
+    {
+      "name": "manual-feed-recovery-created-valid",
+      "file": "examples/v2/manual-feed-recovery-created-valid.json",
+      "schema": "ManualFeedRecoveryResponse",
+      "expect": "valid",
+      "reason": "safe recovery fences an unknown saved key with a terminal rejected no-feed receipt"
+    },
+    {
+      "name": "manual-feed-recovery-unknown-resolution-invalid",
+      "file": "examples/v2/manual-feed-recovery-unknown-resolution-invalid.json",
+      "schema": "ManualFeedRecoveryResponse",
+      "expect": "invalid",
+      "reason": "recovery can only report a created receipt or an existing command, never an admitted feed",
+      "failure": {
+        "path": "/resolution",
+        "keyword": "enum"
+      }
+    },
+    {
+      "name": "configuration-replay-applied-valid",
+      "file": "examples/v2/configuration-replay-applied-valid.json",
+      "schema": "ConfigurationWriteResponse",
+      "expect": "valid",
+      "reason": "immutable request receipt is distinct from current applied state"
+    },
+    {
+      "name": "command-delivery-valid",
+      "file": "examples/v2/command-delivery-valid.json",
+      "schema": "CommandDelivery",
+      "expect": "valid",
+      "reason": "known feed command action has a closed discriminator"
+    },
+    {
+      "name": "run-event-failed-valid",
+      "file": "examples/v2/run-event-failed-valid.json",
+      "schema": "RunEvent",
+      "expect": "valid",
+      "reason": "failed means an operation started but did not complete"
+    },
+    {
+      "name": "scheduled-skip-valid",
+      "file": "examples/v2/scheduled-skip-valid.json",
+      "schema": "RunEvent",
+      "expect": "valid",
+      "reason": "skipped is an explicit scheduled occurrence outcome, separate from command states"
+    },
+    {
+      "name": "sync-total-sample-cap-valid",
+      "file": "examples/v2/sync-total-sample-cap-valid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "valid",
+      "reason": "100 historical samples fit when no live sample is present"
+    },
+    {
+      "name": "timezone-case-insensitive-valid",
+      "file": "examples/v2/timezone-case-insensitive-valid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "valid",
+      "reason": "lowercase IANA spelling resolves and canonicalizes consistently"
+    },
+    {
+      "name": "simulator-capabilities-valid",
+      "file": "examples/v2/simulator-capabilities-valid.json",
+      "schema": "DeviceDescriptor",
+      "expect": "valid",
+      "reason": "20,000 g shared capacity stays separate from the 5-100 g synthetic nozzle bounds"
+    },
+    {
+      "name": "config-fixed-dose-valid",
+      "file": "examples/v2/config-fixed-dose-valid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "valid",
+      "reason": "full snapshot uses an IANA zone, ISO weekdays, and a fixed portion ID"
+    },
+    {
+      "name": "sync-invalid-clock-valid",
+      "file": "examples/v2/sync-invalid-clock-valid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "valid",
+      "reason": "authenticated heartbeat can carry unavailable readings and null invalid-clock time"
+    },
+    {
+      "name": "sync-replay-records-valid",
+      "file": "examples/v2/sync-replay-records-valid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "valid",
+      "reason": "live and historical identities are separate and events have stable run sequence"
+    },
+    {
+      "name": "device-wait-request-valid",
+      "file": "examples/v2/device-wait-request-valid.json",
+      "schema": "DeviceWaitRequest",
+      "expect": "valid",
+      "reason": "wait carries only protocol, request identity, and the previously seen watermark"
+    },
+    {
+      "name": "device-wait-response-valid",
+      "file": "examples/v2/device-wait-response-valid.json",
+      "schema": "DeviceWaitResponse",
+      "expect": "valid",
+      "reason": "wait response is a wake-up watermark and does not carry work"
+    },
+    {
+      "name": "device-wait-extra-command-invalid",
+      "file": "examples/v2/device-wait-extra-command-invalid.json",
+      "schema": "DeviceWaitRequest",
+      "expect": "invalid",
+      "reason": "wait request rejects a command field because wait never carries work",
+      "failure": {
+        "path": "/command",
+        "keyword": "additionalProperties"
+      }
+    },
+    {
+      "name": "maintenance-ack-retains-unknown-valid",
+      "file": "examples/v2/maintenance-ack-retains-unknown-valid.json",
+      "schema": "RunEvent",
+      "expect": "valid",
+      "reason": "device maintenance clears lockout but preserves unknown outcome and null measured amount"
+    },
+    {
+      "name": "command-unknown-reboot-valid",
+      "file": "examples/v2/command-unknown-reboot-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "unfinished rebooted operation stays unknown and safety-locked"
+    },
+    {
+      "name": "missing-request-id-invalid",
+      "file": "examples/v2/missing-request-id-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "required request tracking ID is missing",
+      "failure": {
+        "path": "/request_id",
+        "keyword": "required"
+      }
+    },
+    {
+      "name": "unsupported-major-invalid",
+      "file": "examples/v2/unsupported-major-invalid.json",
+      "schema": "PairingWindowRequest",
+      "expect": "invalid",
+      "reason": "protocol major outside v2 is explicitly rejected",
+      "failure": {
+        "path": "/protocol_major",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "unknown-dose-invalid",
+      "file": "examples/v2/unknown-dose-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "unknown dose discriminator is rejected",
+      "failure": {
+        "path": "/targets/0/dose/mode",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "unknown-command-state-invalid",
+      "file": "examples/v2/unknown-command-state-invalid.json",
+      "schema": "CommandStatusResponse",
+      "expect": "invalid",
+      "reason": "unknown command state is rejected",
+      "failure": {
+        "path": "/command/status",
+        "keyword": "enum"
+      }
+    },
+    {
+      "name": "unknown-command-type-invalid",
+      "file": "examples/v2/unknown-command-type-invalid.json",
+      "schema": "CommandDelivery",
+      "expect": "invalid",
+      "reason": "unsupported action cannot be interpreted as a feed command",
+      "failure": {
+        "path": "/command_type",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "event-outcome-mismatch-invalid",
+      "file": "examples/v2/event-outcome-mismatch-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "ordinary event type and outcome status must agree",
+      "failure": {
+        "path": "",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "unknown-command-invented-measurement-invalid",
+      "file": "examples/v2/unknown-command-invented-measurement-invalid.json",
+      "schema": "CommandStatusResponse",
+      "expect": "invalid",
+      "reason": "unknown physical outcome cannot contain measured dispensing",
+      "failure": {
+        "path": "/command/nozzle_results/0/measured_dispensed_g",
+        "keyword": "type"
+      }
+    },
+    {
+      "name": "unknown-event-invented-measurement-invalid",
+      "file": "examples/v2/unknown-event-invented-measurement-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "unknown physical outcome cannot contain measured dispensing",
+      "failure": {
+        "path": "/measured_dispensed_g",
+        "keyword": "type"
+      }
+    },
+    {
+      "name": "invalid-timezone-invalid",
+      "file": "examples/v2/invalid-timezone-invalid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "invalid",
+      "reason": "timezone must exist in the runtime IANA timezone database",
+      "failure": {
+        "path": "/snapshot/timezone",
+        "keyword": "format"
+      }
+    },
+    {
+      "name": "numeric-timezone-offset-invalid",
+      "file": "examples/v2/numeric-timezone-offset-invalid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "invalid",
+      "reason": "plain numeric UTC offsets are not IANA time-zone identifiers",
+      "failure": {
+        "path": "/snapshot/timezone",
+        "keyword": "format"
+      }
+    },
+    {
+      "name": "invalid-calendar-date-invalid",
+      "file": "examples/v2/invalid-calendar-date-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "calendar date must exist, not merely match YYYY-MM-DD",
+      "failure": {
+        "path": "/occurrence_local_date",
+        "keyword": "format"
+      }
+    },
+    {
+      "name": "invalid-utc-calendar-time-invalid",
+      "file": "examples/v2/invalid-utc-calendar-time-invalid.json",
+      "schema": "CommandAcceptedResponse",
+      "expect": "invalid",
+      "reason": "UTC timestamp must be a valid calendar time ending in Z",
+      "failure": {
+        "path": "/created_at",
+        "keyword": "format"
+      }
+    },
+    {
+      "name": "quality-null-coupling-invalid",
+      "file": "examples/v2/quality-null-coupling-invalid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "invalid",
+      "reason": "valid quality cannot be paired with a null sensor value",
+      "failure": {
+        "path": "/latest_sample/do_mg_l",
+        "keyword": "type"
+      }
+    },
+    {
+      "name": "maintenance-invented-measurement-invalid",
+      "file": "examples/v2/maintenance-invented-measurement-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "maintenance acknowledgment cannot invent measured dispensing",
+      "failure": {
+        "path": "/measured_dispensed_g",
+        "keyword": "type"
+      }
+    },
+    {
+      "name": "non-finite-number-invalid",
+      "file": "examples/v2/non-finite-number-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "JSON numeric values must remain finite",
+      "failure": {
+        "path": "/targets/0/dose/amount_g",
+        "keyword": "finite-number"
+      }
+    },
+    {
+      "name": "weekday-zero-invalid",
+      "file": "examples/v2/weekday-zero-invalid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "invalid",
+      "reason": "weekday uses ISO numbering 1 through 7",
+      "failure": {
+        "path": "/snapshot/schedules/0/weekdays/0",
+        "keyword": "minimum"
+      }
+    },
+    {
+      "name": "sync-total-sample-cap-invalid",
+      "file": "examples/v2/sync-total-sample-cap-invalid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "invalid",
+      "reason": "live sample counts toward the 100 sample total, leaving at most 99 backlog samples",
+      "failure": {
+        "path": "/backlog_samples",
+        "keyword": "maxItems"
+      }
+    },
+    {
+      "name": "manual-feed-nozzle2-valid",
+      "file": "examples/v2/manual-feed-nozzle2-valid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "valid",
+      "reason": "two-nozzle v2 contract example"
+    },
+    {
+      "name": "manual-feed-both-valid",
+      "file": "examples/v2/manual-feed-both-valid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "valid",
+      "reason": "two-nozzle v2 contract example"
+    },
+    {
+      "name": "manual-feed-both-order-invalid",
+      "file": "examples/v2/manual-feed-both-order-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "Both cannot reorder nozzle 1 and nozzle 2",
+      "failure": {
+        "path": "/targets",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "unknown-nozzle-invalid",
+      "file": "examples/v2/unknown-nozzle-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "Only nozzles 1 and 2 are supported",
+      "failure": {
+        "path": "/targets/0/nozzle_number",
+        "keyword": "enum"
+      }
+    },
+    {
+      "name": "legacy-v1-manual-feed-invalid",
+      "file": "examples/v2/legacy-v1-manual-feed-invalid.json",
+      "schema": "ManualFeedRequest",
+      "expect": "invalid",
+      "reason": "A v1 payload is rejected explicitly; no default nozzle is inferred",
+      "failure": {
+        "path": "/protocol_major",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "partial-both-nozzle2-not-started-valid",
+      "file": "examples/v2/partial-both-nozzle2-not-started-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "Partial outcome preserves nozzle 1 measurement and nozzle 2 not_started"
+    },
+    {
+      "name": "run-event-not-started-valid",
+      "file": "examples/v2/run-event-not-started-valid.json",
+      "schema": "RunEvent",
+      "expect": "valid",
+      "reason": "two-nozzle v2 contract example"
+    },
+    {
+      "name": "scheduled-sequence-admission-valid",
+      "file": "examples/v2/scheduled-sequence-admission-valid.json",
+      "schema": "ScheduledSequenceAdmission",
+      "expect": "valid",
+      "reason": "two-nozzle v2 contract example"
+    },
+    {
+      "name": "command-status-completed-incomplete-invalid",
+      "file": "examples/v2/command-status-completed-incomplete-invalid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "invalid",
+      "failure": {
+        "path": "/nozzle_results",
+        "keyword": "maxContains"
+      },
+      "reason": "Aggregate completion requires every selected nozzle to complete"
+    },
+    {
+      "name": "command-status-unknown-maintenance-resolved-valid",
+      "file": "examples/v2/command-status-unknown-maintenance-resolved-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "Device maintenance may clear lockout while preserving the unknown result"
+    },
+    {
+      "name": "command-status-partial-unknown-lockout-valid",
+      "file": "examples/v2/command-status-partial-unknown-lockout-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "Unknown per-nozzle results retain lockout until device maintenance resolves the lockout"
+    },
+    {
+      "name": "command-status-partial-unknown-unlocked-invalid",
+      "file": "examples/v2/command-status-partial-unknown-unlocked-invalid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "invalid",
+      "reason": "Unknown per-nozzle results retain lockout until device maintenance resolves the lockout",
+      "failure": {
+        "path": "",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "command-status-partial-unknown-maintenance-resolved-valid",
+      "file": "examples/v2/command-status-partial-unknown-maintenance-resolved-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "Unknown per-nozzle results retain lockout until device maintenance resolves the lockout"
+    },
+    {
+      "name": "history-page-unknown-valid",
+      "file": "examples/v2/history-page-unknown-valid.json",
+      "schema": "HistoryPageResponse",
+      "expect": "valid",
+      "reason": "History keeps an uncertain per-nozzle result and its unmeasured amount null"
+    },
+    {
+      "name": "configuration-read-valid",
+      "file": "examples/v2/configuration-read-valid.json",
+      "schema": "ConfigurationReadResponse",
+      "expect": "valid",
+      "reason": "Desired pending and previously applied snapshots remain distinct"
+    },
+    {
+      "name": "next-applied-occurrence-valid",
+      "file": "examples/v2/next-applied-occurrence-valid.json",
+      "schema": "NextAppliedOccurrenceResponse",
+      "expect": "valid",
+      "reason": "Next occurrence includes the applied timezone, nozzle and independent dose"
+    },
+    {
+      "name": "monitoring-snapshot-valid",
+      "file": "examples/v2/monitoring-snapshot-valid.json",
+      "schema": "MonitoringSnapshotResponse",
+      "expect": "valid",
+      "reason": "shared inventory percentage uses the declared 20 kg simulator capacity"
+    },
+    {
+      "name": "do-graph-gaps-valid",
+      "file": "examples/v2/do-graph-gaps-valid.json",
+      "schema": "DoGraphResponse",
+      "expect": "valid",
+      "reason": "bounded UTC buckets preserve a visible gap and count invalid-time arrivals separately"
+    },
+    {
+      "name": "do-graph-unsupported-valid",
+      "file": "examples/v2/do-graph-unsupported-valid.json",
+      "schema": "DoGraphResponse",
+      "expect": "valid",
+      "reason": "unsupported sensor is an explicit unavailable gap, not a valid point"
+    },
+    {
+      "name": "sync-latest-plus-99-valid",
+      "file": "examples/v2/sync-latest-plus-99-valid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "valid",
+      "reason": "the live sample consumes one slot in the 100-sample cap"
+    },
+    {
+      "name": "sync-latest-plus-100-invalid",
+      "file": "examples/v2/sync-latest-plus-100-invalid.json",
+      "schema": "DeviceSyncRequest",
+      "expect": "invalid",
+      "reason": "100 backlog samples plus the live sample exceed the total cap",
+      "failure": {
+        "path": "/backlog_samples",
+        "keyword": "maxItems"
+      }
+    },
+    {
+      "name": "notifications-page-visible-valid",
+      "file": "examples/v2/notifications-page-valid.json",
+      "schema": "NotificationsPageResponse",
+      "expect": "valid",
+      "reason": "one immutable shared event carries only the paired installation's read state and a bounded unread count"
+    },
+    {
+      "name": "notification-action-read-valid",
+      "file": "examples/v2/notification-action-read-valid.json",
+      "schema": "NotificationActionRequest",
+      "expect": "valid",
+      "reason": "single-event read action repeats the required protocol and request identity"
+    },
+    {
+      "name": "notification-action-extra-installation-invalid",
+      "file": "examples/v2/notification-action-extra-installation-invalid.json",
+      "schema": "NotificationActionRequest",
+      "expect": "invalid",
+      "reason": "installation identity is derived from the verified JWT and is forbidden in an action body",
+      "failure": {
+        "path": "/installation_id",
+        "keyword": "additionalProperties"
+      }
+    },
+    {
+      "name": "notification-bulk-dismiss-valid",
+      "file": "examples/v2/notification-bulk-dismiss-valid.json",
+      "schema": "NotificationBulkActionRequest",
+      "expect": "valid",
+      "reason": "bulk dismissal uses an exact event and full-precision captured UTC cutoff"
+    },
+    {
+      "name": "android-push-token-registration-valid",
+      "file": "examples/v2/android-push-token-registration-valid.json",
+      "schema": "AndroidPushTokenRegistrationRequest",
+      "expect": "valid",
+      "reason": "synthetic Android Expo token is bound to the configured EAS project"
+    },
+    {
+      "name": "android-push-token-registration-invalid",
+      "file": "examples/v2/android-push-token-registration-invalid.json",
+      "schema": "AndroidPushTokenRegistrationRequest",
+      "expect": "invalid",
+      "reason": "synthetic token with invalid characters is rejected",
+      "failure": {
+        "path": "/expo_push_token",
+        "keyword": "pattern"
+      }
+    },
+    {
+      "name": "android-push-token-revocation-valid",
+      "file": "examples/v2/android-push-token-revocation-valid.json",
+      "schema": "AndroidPushTokenRevocationRequest",
+      "expect": "valid",
+      "reason": "revocation contains no caller-controlled installation identity"
+    },
+    {
+      "name": "notification-event-read-valid",
+      "file": "examples/v2/notification-event-read-valid.json",
+      "schema": "NotificationEventReadResponse",
+      "expect": "valid",
+      "reason": "tap verification returns only the authorized immutable event and installation state"
+    },
+    {
+      "name": "notification-push-payload-valid",
+      "file": "examples/v2/notification-push-payload-valid.json",
+      "schema": "NotificationPushPayload",
+      "expect": "valid",
+      "reason": "push payload contains only event identity and the fixed notification route hint"
+    },
+    {
+      "name": "notification-push-payload-arbitrary-route-invalid",
+      "file": "examples/v2/notification-push-payload-arbitrary-route-invalid.json",
+      "schema": "NotificationPushPayload",
+      "expect": "invalid",
+      "reason": "a push payload cannot navigate to an arbitrary URL",
+      "failure": {
+        "path": "/route_hint",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "schedule-both-valid",
+      "file": "examples/v2/schedule-both-valid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "valid",
+      "reason": "one schedule carries Both as nozzle 1 then nozzle 2 with separate doses"
+    },
+    {
+      "name": "schedule-both-reversed-invalid",
+      "file": "examples/v2/schedule-both-reversed-invalid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "invalid",
+      "reason": "a Both schedule cannot reorder nozzle 2 before nozzle 1",
+      "failure": {
+        "path": "/snapshot/schedules/0/targets",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "schedule-legacy-scalar-invalid",
+      "file": "examples/v2/schedule-legacy-scalar-invalid.json",
+      "schema": "ConfigurationWriteRequest",
+      "expect": "invalid",
+      "reason": "legacy scalar nozzle_number/dose schedules are rejected, so no consumer can run only one target of Both",
+      "failure": {
+        "path": "/snapshot/schedules/0/targets",
+        "keyword": "required"
+      }
+    },
+    {
+      "name": "run-event-continuation-valid",
+      "file": "examples/v2/run-event-continuation-valid.json",
+      "schema": "RunEvent",
+      "expect": "valid",
+      "reason": "a failed nozzle 1 with safe stop, no device fault and a settled valid weighing may continue to nozzle 2"
+    },
+    {
+      "name": "run-event-continuation-step2-invalid",
+      "file": "examples/v2/run-event-continuation-step2-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "continuation evidence binds only to step 1 of the sequence",
+      "failure": {
+        "path": "/step_index",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "run-event-continuation-fault-invalid",
+      "file": "examples/v2/run-event-continuation-fault-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "a device-wide fault never proves a safe continuation",
+      "failure": {
+        "path": "/continuation_evidence",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "run-event-continuation-unweighed-invalid",
+      "file": "examples/v2/run-event-continuation-unweighed-invalid.json",
+      "schema": "RunEvent",
+      "expect": "invalid",
+      "reason": "continuation requires a valid settled weighing of the failed nozzle 1",
+      "failure": {
+        "path": "/measurement_quality",
+        "keyword": "const"
+      }
+    },
+    {
+      "name": "command-status-partial-failed-completed-valid",
+      "file": "examples/v2/command-status-partial-failed-completed-valid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "valid",
+      "reason": "nozzle 1 failed plus nozzle 2 completed aggregates to partial"
+    },
+    {
+      "name": "command-status-partial-both-failed-invalid",
+      "file": "examples/v2/command-status-partial-both-failed-invalid.json",
+      "schema": "CommandStatusDTO",
+      "expect": "invalid",
+      "reason": "partial needs exactly one completed nozzle",
+      "failure": {
+        "path": "/nozzle_results",
+        "keyword": "contains"
+      }
+    },
+    {
+      "name": "notification-event-feeding-valid",
+      "file": "examples/v2/notification-event-feeding-valid.json",
+      "schema": "NotificationEventReadResponse",
+      "expect": "valid",
+      "reason": "a feeding outcome references its sequence and has null reading facts"
+    },
+    {
+      "name": "notification-event-feeding-reading-invalid",
+      "file": "examples/v2/notification-event-feeding-reading-invalid.json",
+      "schema": "NotificationEventReadResponse",
+      "expect": "invalid",
+      "reason": "a feeding outcome never carries an invented reading",
+      "failure": {
+        "path": "/event",
+        "keyword": "oneOf"
+      }
+    },
+    {
+      "name": "notification-event-telemetry-sequence-invalid",
+      "file": "examples/v2/notification-event-telemetry-sequence-invalid.json",
+      "schema": "NotificationEventReadResponse",
+      "expect": "invalid",
+      "reason": "a reading crossing never references a feed sequence",
+      "failure": {
+        "path": "/event",
+        "keyword": "oneOf"
+      }
+    }
+  ],
+  "behavior_cases": [
+    {
+      "name": "command-replay-out-of-order",
+      "file": "examples/v2/command-replay-out-of-order.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "completed",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "expiry-after-possible-start",
+      "file": "examples/v2/expiry-after-possible-start.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "unknown",
+        "safety_lockout": true
+      }
+    },
+    {
+      "name": "expiry-confirmed-not-started",
+      "file": "examples/v2/expiry-confirmed-not-started.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "expired",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "reboot-interruption",
+      "file": "examples/v2/reboot-interruption.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "unknown",
+        "safety_lockout": true
+      }
+    },
+    {
+      "name": "unknown-late-reliable-evidence",
+      "file": "examples/v2/unknown-late-reliable-evidence.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "completed",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "unknown-maintenance-clear",
+      "file": "examples/v2/unknown-maintenance-clear.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "unknown",
+        "safety_lockout": false,
+        "measured_dispensed_g": null
+      }
+    },
+    {
+      "name": "manual-idempotency",
+      "file": "examples/v2/manual-idempotency.json",
+      "rule": "feed-idempotency",
+      "expected": {
+        "same_payload": "same-command",
+        "changed_payload": "IDEMPOTENCY_CONFLICT",
+        "request_id_only": "new-command",
+        "changed_second_dose": "IDEMPOTENCY_CONFLICT",
+        "changed_target": "IDEMPOTENCY_CONFLICT"
+      }
+    },
+    {
+      "name": "configuration-request-replay",
+      "file": "examples/v2/configuration-request-replay.json",
+      "rule": "configuration-replay",
+      "expected": {
+        "same_snapshot": "same-revision",
+        "changed_snapshot": "CONFIG_CONFLICT",
+        "changed_base_payload": "CONFIG_CONFLICT",
+        "pending_second_edit": "CONFIG_PENDING"
+      }
+    },
+    {
+      "name": "sync-duplicate-ack",
+      "file": "examples/v2/sync-duplicate-ack.json",
+      "rule": "sync-dedup",
+      "expected": {
+        "unique_sample_acks": 1,
+        "unique_event_acks": 1,
+        "effects": 4,
+        "outbox_remaining": [
+          "event:55555555-5555-4555-8555-555555555555:5",
+          "sample:11111111-1111-4111-8111-111111111111:13"
+        ]
+      }
+    },
+    {
+      "name": "schedule-stable-occurrence",
+      "file": "examples/v2/schedule-stable-occurrence.json",
+      "rule": "schedule-ledger",
+      "expected": {
+        "first": "execute",
+        "edited_timezone_same_date": "duplicate"
+      }
+    },
+    {
+      "name": "schedule-dst",
+      "file": "examples/v2/schedule-dst.json",
+      "rule": "dst",
+      "expected": {
+        "repeated_wall_time_instants": 2,
+        "executions": 1,
+        "nonexistent_wall_time_instants": 0,
+        "nonexistent_action": "skip"
+      }
+    },
+    {
+      "name": "schedule-clock-recovery",
+      "file": "examples/v2/schedule-clock-recovery.json",
+      "rule": "schedule-clock",
+      "expected": {
+        "forward_after_reboot": "skip",
+        "backward_with_ledger": "duplicate",
+        "invalid_clock": "pause",
+        "actuator_collision": "DEVICE_BUSY"
+      }
+    },
+    {
+      "name": "command-terminal-non-regression",
+      "file": "examples/v2/command-terminal-non-regression.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "completed",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "command-unreliable-transition",
+      "file": "examples/v2/command-unreliable-transition.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "accepted",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "semantic-replay-reordered",
+      "file": "examples/v2/semantic-replay-reordered.json",
+      "rule": "semantic-replay",
+      "expected": {
+        "feed_reordered_with_additive_fields": "same-command",
+        "feed_numeric_spelling_equal": true,
+        "config_reordered_with_additive_fields": "same-revision",
+        "config_numeric_spelling_equal": true,
+        "config_distinct_alias_conflict": "CONFIG_CONFLICT",
+        "config_changed_base_revision": "CONFIG_CONFLICT",
+        "feed_changed_second_dose": "IDEMPOTENCY_CONFLICT",
+        "feed_changed_nozzle": "IDEMPOTENCY_CONFLICT"
+      }
+    },
+    {
+      "name": "timezone-casing",
+      "file": "examples/v2/timezone-casing.json",
+      "rule": "timezone-casing",
+      "expected": {
+        "canonical": true,
+        "lowercase_variant": true,
+        "alias": true,
+        "second_alias": true,
+        "numeric_offset": false,
+        "nonexistent": false
+      }
+    },
+    {
+      "name": "command-running-no-events",
+      "file": "examples/v2/command-running-no-events.json",
+      "rule": "command-history",
+      "expected": {
+        "status": "running",
+        "safety_lockout": false
+      }
+    },
+    {
+      "name": "same-time-schedule-group",
+      "file": "examples/v2/same-time-schedule-group.json",
+      "rule": "schedule-group",
+      "expected": {
+        "admitted_together": true,
+        "order": [
+          1,
+          2
+        ],
+        "sequence_reserved_through_settling": true,
+        "nozzle2_after_nozzle1_normal_completion": "ready",
+        "nozzle2_start_deadline": "baseline_ready_at_plus_wake_grace"
+      }
+    },
+    {
+      "name": "nozzle-sequence-safe-stop",
+      "file": "examples/v2/nozzle-sequence-safe-stop.json",
+      "rule": "sequence-abort",
+      "expected": {
+        "fault": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "uncertain_stop": [
+          "unknown",
+          "not_started",
+          "unknown"
+        ],
+        "invalid_weighing": [
+          "completed",
+          "not_started",
+          "partial"
+        ],
+        "recoverable_all_gates": [
+          "failed",
+          "completed",
+          "partial"
+        ],
+        "recoverable_nozzle2_failed": [
+          "failed",
+          "failed",
+          "failed"
+        ],
+        "recoverable_nozzle2_unknown": [
+          "failed",
+          "unknown",
+          "unknown"
+        ],
+        "fault_with_all_gates": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_safe_stop": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_settled_weighing": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_device_healthy": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_target_authorized": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_capability": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_inventory": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "recoverable_missing_deadline": [
+          "failed",
+          "not_started",
+          "failed"
+        ],
+        "automatic_resume": false
+      }
+    },
+    {
+      "name": "same-nozzle-schedule-collision",
+      "file": "examples/v2/same-nozzle-schedule-collision.json",
+      "rule": "schedule-collisions",
+      "expected": {
+        "same_nozzle": "reject",
+        "cross_nozzle": [
+          1,
+          2
+        ],
+        "both_alone": [
+          1,
+          2
+        ],
+        "both_vs_single": "reject",
+        "both_vs_single_other_day": [
+          1,
+          2
+        ]
+      }
+    },
+    {
+      "name": "command-progress-binding",
+      "file": "examples/v2/command-progress-binding.json",
+      "rule": "command-progress",
+      "expected": {
+        "matching_partial": true,
+        "result_nozzle_mismatch": false,
+        "result_dose_mismatch": false,
+        "completed_with_not_started": false,
+        "unknown_unlocked_without_resolution": false,
+        "unknown_cleared_by_device_maintenance": true,
+        "nozzle2_started_before_nozzle1_completed": false,
+        "partial_unknown_locked": true,
+        "partial_unknown_unlocked": false,
+        "partial_unknown_maintenance_cleared": true,
+        "partial_failed_then_completed": true,
+        "nozzle2_after_failed_unmeasured_nozzle1": false,
+        "partial_both_failed": false
+      }
+    },
+    {
+      "name": "notification-history-installation-cutoff",
+      "file": "examples/v2/notification-history-cutoff.json",
+      "rule": "notification-history",
+      "expected": {
+        "shared_event_ids": [
+          "44444444-4444-4444-8444-444444444444",
+          "22222222-2222-4222-8222-222222222222",
+          "33333333-3333-4333-8333-333333333333",
+          "11111111-1111-4111-8111-111111111111"
+        ],
+        "first_page_event_ids": [
+          "44444444-4444-4444-8444-444444444444",
+          "22222222-2222-4222-8222-222222222222"
+        ],
+        "first_next_cursor": {
+          "raised_at": "2026-10-14T08:00:00.123457Z",
+          "event_id": "22222222-2222-4222-8222-222222222222"
+        },
+        "first_second_page_event_ids": [
+          "33333333-3333-4333-8333-333333333333"
+        ],
+        "first_unread_count": 2,
+        "second_page_event_ids": [
+          "44444444-4444-4444-8444-444444444444",
+          "22222222-2222-4222-8222-222222222222"
+        ],
+        "second_second_page_event_ids": [
+          "33333333-3333-4333-8333-333333333333",
+          "11111111-1111-4111-8111-111111111111"
+        ],
+        "second_unread_count": 2,
+        "newer_than_bulk_cutoff_unread": true
+      }
+    }
+  ]
+}

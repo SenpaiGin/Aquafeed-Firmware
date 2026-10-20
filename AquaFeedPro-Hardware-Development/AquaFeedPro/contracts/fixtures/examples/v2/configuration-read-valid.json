@@ -1,0 +1,40 @@
+{
+  "request_id": "22222222-2222-4222-8222-222222222222",
+  "receipt": null,
+  "request_status": "pending",
+  "request_error_code": null,
+  "current_state": {
+    "desired_revision": 3,
+    "applied_revision": 2,
+    "last_attempt_revision": 3,
+    "last_attempt_status": "pending",
+    "error_code": null
+  },
+  "desired_snapshot": {
+    "revision": 3,
+    "based_on_revision": 2,
+    "timezone": "Asia/Manila",
+    "monitoring_limits": { "do_low_mg_l": null, "do_high_mg_l": null },
+    "low_feed_threshold_pct": null,
+    "schedules": [
+      {
+        "schedule_id": "44444444-4444-4444-8444-444444444444",
+        "local_time": "17:30",
+        "weekdays": [1, 3, 5],
+        "enabled": true,
+        "targets": [
+          { "nozzle_number": 1, "dose": { "mode": "grams", "amount_g": 40 } },
+          { "nozzle_number": 2, "dose": { "mode": "grams", "amount_g": 25 } }
+        ]
+      }
+    ]
+  },
+  "applied_snapshot": {
+    "revision": 2,
+    "based_on_revision": 1,
+    "timezone": "Asia/Manila",
+    "monitoring_limits": { "do_low_mg_l": null, "do_high_mg_l": null },
+    "low_feed_threshold_pct": null,
+    "schedules": []
+  }
+}

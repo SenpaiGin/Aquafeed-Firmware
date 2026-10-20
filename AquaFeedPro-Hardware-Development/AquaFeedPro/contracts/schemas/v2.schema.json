@@ -1,0 +1,4213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aquafeedpro.example/contracts/v2.schema.json",
+  "title": "AquaFeed Pro wire contract 2.7.0",
+  "description": "Breaking major 2 contract. Major 1 has no nozzle targeting and is rejected with PROTOCOL_UNSUPPORTED; no fallback or silent default nozzle.",
+  "$defs": {
+    "ProtocolMajor": {
+      "type": "integer",
+      "const": 2
+    },
+    "Uuid": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "UtcDateTime": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?Z$",
+      "description": "Valid calendar timestamp in UTC, with the required Z suffix."
+    },
+    "LocalDate": {
+      "type": "string",
+      "format": "date"
+    },
+    "LocalTime": {
+      "type": "string",
+      "format": "local-time",
+      "pattern": "^(?:[01]\\d|2[0-3]):[0-5]\\d$",
+      "description": "Local wall time in HH:MM."
+    },
+    "IanaTimeZone": {
+      "type": "string",
+      "format": "iana-time-zone",
+      "minLength": 1,
+      "description": "Resolve names case-insensitively against the IANA database for runtime use; reject plain numeric UTC offsets. Preserve the submitted identifier for configuration equality."
+    },
+    "PositiveInteger": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "NonNegativeInteger": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "NullablePositiveInteger": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "NullableNonNegativeInteger": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "FiniteNonNegativeNumber": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1.7976931348623157e+308
+    },
+    "NullableFiniteNonNegativeNumber": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/FiniteNonNegativeNumber"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "NullablePercentage": {
+      "oneOf": [
+        {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Percent on the 0..100 scale."
+    },
+    "DoseMode": {
+      "type": "string",
+      "enum": [
+        "grams",
+        "fixed_portion"
+      ]
+    },
+    "GramsDose": {
+      "type": "object",
+      "required": [
+        "mode",
+        "amount_g"
+      ],
+      "properties": {
+        "mode": {
+          "const": "grams"
+        },
+        "amount_g": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1.7976931348623157e+308,
+          "description": "Requested feed weight in grams; bounds and increment come from the approved per-device profile."
+        }
+      }
+    },
+    "FixedPortionDose": {
+      "type": "object",
+      "required": [
+        "mode",
+        "fixed_portion_id"
+      ],
+      "properties": {
+        "mode": {
+          "const": "fixed_portion"
+        },
+        "fixed_portion_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$",
+          "description": "Opaque ID selected from this device's advertised fixed_portion_ids; no gram amount is implied."
+        }
+      }
+    },
+    "Dose": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/GramsDose"
+        },
+        {
+          "$ref": "#/$defs/FixedPortionDose"
+        }
+      ],
+      "description": "Discriminated dose. Unknown mode values fail validation."
+    },
+    "CommandState": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "accepted",
+        "running",
+        "completed",
+        "partial",
+        "failed",
+        "rejected",
+        "expired",
+        "unknown"
+      ]
+    },
+    "RunEventOutcome": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "accepted",
+        "running",
+        "completed",
+        "failed",
+        "rejected",
+        "expired",
+        "unknown",
+        "skipped",
+        "not_started"
+      ],
+      "description": "skipped is a scheduled occurrence outcome, not a command state."
+    },
+    "SensorQuality": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "unavailable",
+        "uncalibrated",
+        "error"
+      ]
+    },
+    "TimeQuality": {
+      "type": "string",
+      "enum": [
+        "synced",
+        "rtc",
+        "uncertain",
+        "invalid"
+      ]
+    },
+    "MeasurementQuality": {
+      "type": "string",
+      "enum": [
+        "valid",
+        "unavailable",
+        "uncalibrated",
+        "error"
+      ]
+    },
+    "ErrorCode": {
+      "type": "string",
+      "enum": [
+        "INVALID_INPUT",
+        "AUTH_REQUIRED",
+        "ACCESS_DENIED",
+        "RESOURCE_NOT_FOUND",
+        "DEVICE_OFFLINE",
+        "DEVICE_BUSY",
+        "DOSE_UNSUPPORTED",
+        "DOSE_OUT_OF_RANGE",
+        "CONFIG_CONFLICT",
+        "CONFIG_PENDING",
+        "METADATA_CONFLICT",
+        "CLOCK_UNTRUSTED",
+        "PAIRING_EXPIRED",
+        "PAIRING_INVALID",
+        "ACCESS_REVOKED",
+        "COMMAND_EXPIRED",
+        "IDEMPOTENCY_CONFLICT",
+        "SAFETY_LOCKOUT",
+        "PROTOCOL_UNSUPPORTED",
+        "PAYLOAD_TOO_LARGE",
+        "RATE_LIMITED",
+        "SERVICE_UNAVAILABLE",
+        "CAPABILITY_MISMATCH",
+        "VALIDATION_FAILED",
+        "INVENTORY_UNAVAILABLE",
+        "INSUFFICIENT_INVENTORY"
+      ]
+    },
+    "ApiError": {
+      "type": "object",
+      "required": [
+        "code",
+        "message",
+        "request_id",
+        "retryable"
+      ],
+      "properties": {
+        "code": {
+          "$ref": "#/$defs/ErrorCode"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ErrorEnvelope": {
+      "type": "object",
+      "required": [
+        "error"
+      ],
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/ApiError"
+        }
+      }
+    },
+    "CapabilityProfile": {
+      "type": "object",
+      "required": [
+        "do_monitoring",
+        "feed_remaining_monitoring",
+        "feed_capacity_g",
+        "nozzles",
+        "max_schedules",
+        "scheduled_both",
+        "local_schedule_execution",
+        "max_clock_uncertainty_ms",
+        "scheduler_wake_grace_ms",
+        "maximum_settling_ms"
+      ],
+      "properties": {
+        "do_monitoring": {
+          "type": "boolean"
+        },
+        "feed_remaining_monitoring": {
+          "type": "boolean",
+          "description": "One shared container/load-cell inventory, never per-nozzle stock."
+        },
+        "feed_capacity_g": {
+          "oneOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0,
+              "maximum": 1.7976931348623157e+308
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Capacity of the shared container. Null means unknown; it does not set any nozzle dose limit."
+        },
+        "nozzles": {
+          "type": "object",
+          "required": [
+            "1",
+            "2"
+          ],
+          "properties": {
+            "1": {
+              "$ref": "#/$defs/NozzleCapability"
+            },
+            "2": {
+              "$ref": "#/$defs/NozzleCapability"
+            }
+          },
+          "additionalProperties": false
+        },
+        "max_schedules": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "scheduled_both": {
+          "type": "boolean",
+          "description": "True only when the device executes a two-target schedule as one ordered Both sequence. False rejects Both schedules."
+        },
+        "local_schedule_execution": {
+          "type": "boolean"
+        },
+        "max_clock_uncertainty_ms": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "scheduler_wake_grace_ms": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "maximum_settling_ms": {
+          "$ref": "#/$defs/NullablePositiveInteger",
+          "description": "Device-wide maximum settling interval; null means no verified bound."
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "local_schedule_execution": {
+                "const": true
+              }
+            },
+            "required": [
+              "local_schedule_execution"
+            ]
+          },
+          "then": {
+            "properties": {
+              "max_schedules": {
+                "$ref": "#/$defs/PositiveInteger"
+              },
+              "scheduler_wake_grace_ms": {
+                "$ref": "#/$defs/NonNegativeInteger"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "max_schedules": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Shared device monitoring, hopper capacity and schedule limits plus exactly two independent nozzle dose capabilities."
+    },
+    "DeviceDescriptor": {
+      "type": "object",
+      "required": [
+        "device_id",
+        "model",
+        "firmware_version",
+        "protocol_major",
+        "is_simulated",
+        "capabilities_revision",
+        "capabilities"
+      ],
+      "properties": {
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "firmware_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "is_simulated": {
+          "type": "boolean"
+        },
+        "capabilities_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "capabilities": {
+          "$ref": "#/$defs/CapabilityProfile"
+        }
+      }
+    },
+    "DeviceAccess": {
+      "type": "object",
+      "required": [
+        "device_id",
+        "granted_at"
+      ],
+      "properties": {
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "granted_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        }
+      },
+      "additionalProperties": false
+    },
+    "DeviceMetadata": {
+      "type": "object",
+      "required": [
+        "device_id",
+        "alias",
+        "location",
+        "metadata_revision",
+        "metadata_conflict"
+      ],
+      "properties": {
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "alias": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 100
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 160
+        },
+        "metadata_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "metadata_conflict": {
+          "type": "boolean",
+          "description": "True while legacy per-phone labels disagreed and no phone has chosen the shared value yet."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Shared feeder name and location, identical for every authorized installation."
+    },
+    "PairRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "device_id",
+        "challenge_id",
+        "pairing_secret"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "challenge_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "pairing_secret": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512,
+          "writeOnly": true
+        }
+      }
+    },
+    "PairResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "device",
+        "access",
+        "metadata"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device": {
+          "$ref": "#/$defs/DeviceDescriptor"
+        },
+        "access": {
+          "$ref": "#/$defs/DeviceAccess"
+        },
+        "metadata": {
+          "$ref": "#/$defs/DeviceMetadata"
+        }
+      }
+    },
+    "PairingWindowRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        }
+      }
+    },
+    "PairingWindowResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "challenge_id",
+        "pairing_secret",
+        "expires_at"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "challenge_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "pairing_secret": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 512
+        },
+        "expires_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        }
+      },
+      "description": "Device-only secret response; never log or send the machine credential to the phone. Physical presentation is hardware-owned."
+    },
+    "DeviceWaitRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "seen_work_token"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "seen_work_token": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128,
+          "description": "Opaque work watermark from the previous wait response; null requests an immediate current value."
+        }
+      },
+      "additionalProperties": false
+    },
+    "DeviceWaitResponse": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "work_token",
+        "changed"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "work_token": {
+          "type": "string",
+          "maxLength": 128,
+          "description": "Opaque wake-up watermark only; it contains no work details and is not a clock sample."
+        },
+        "changed": {
+          "type": "boolean",
+          "description": "False only when the wait reached its 20 second timeout without a change."
+        }
+      },
+      "additionalProperties": false
+    },
+    "AliasUpdateRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "expected_revision",
+        "alias",
+        "location"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "expected_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "alias": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 100
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 160
+        }
+      },
+      "description": "Replaces the shared feeder name and location if expected_revision is still current; null clears. A stale revision is rejected with METADATA_CONFLICT."
+    },
+    "AliasUpdateResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "metadata"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "metadata": {
+          "$ref": "#/$defs/DeviceMetadata"
+        }
+      }
+    },
+    "AccessRevokedResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "device_id",
+        "revoked_at"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "revoked_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        }
+      }
+    },
+    "ManualFeedRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "device_id",
+        "idempotency_key",
+        "targets",
+        "capabilities_revision"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets"
+        },
+        "capabilities_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        }
+      },
+      "description": "Confirmation binds the route device and ordered nozzle+dose targets. Idempotency includes target order, each dose and capabilities_revision; request_id is correlation only."
+    },
+    "CommandAcceptedResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "device_id",
+        "command_id",
+        "sequence_id",
+        "idempotency_key",
+        "targets",
+        "status",
+        "created_at",
+        "start_before"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "command_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets"
+        },
+        "status": {
+          "const": "queued"
+        },
+        "created_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "start_before": {
+          "$ref": "#/$defs/UtcDateTime"
+        }
+      },
+      "description": "start_before gates only the first nozzle; the device-wide reservation remains through later stops and settling."
+    },
+    "LockoutResolution": {
+      "type": "object",
+      "required": [
+        "resolution_at",
+        "resolution_reason",
+        "source"
+      ],
+      "properties": {
+        "resolution_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resolution_reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        },
+        "source": {
+          "const": "device_maintenance"
+        }
+      },
+      "description": "Device-authenticated physical maintenance can clear safety lockout without fabricating a physical outcome."
+    },
+    "CommandStatusDTO": {
+      "type": "object",
+      "required": [
+        "command_id",
+        "sequence_id",
+        "device_id",
+        "request_id",
+        "idempotency_key",
+        "status",
+        "status_sequence",
+        "created_at",
+        "start_before",
+        "targets",
+        "nozzle_results",
+        "safety_lockout",
+        "lockout_resolution"
+      ],
+      "properties": {
+        "command_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "status": {
+          "$ref": "#/$defs/CommandState"
+        },
+        "status_sequence": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "created_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "start_before": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets"
+        },
+        "nozzle_results": {
+          "$ref": "#/$defs/NozzleResults"
+        },
+        "safety_lockout": {
+          "type": "boolean"
+        },
+        "lockout_resolution": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LockoutResolution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "completed"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "nozzle_results": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/NozzleResults"
+                  },
+                  {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "status"
+                      ],
+                      "properties": {
+                        "status": {
+                          "not": {
+                            "const": "completed"
+                          }
+                        }
+                      }
+                    },
+                    "minContains": 0,
+                    "maxContains": 0
+                  }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "partial"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "nozzle_results": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "prefixItems": [
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/NozzleResult"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "nozzle_number": {
+                            "const": 1
+                          },
+                          "status": {
+                            "enum": [
+                              "completed",
+                              "failed"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "allOf": [
+                      {
+                        "$ref": "#/$defs/NozzleResult"
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "nozzle_number": {
+                            "const": 2
+                          },
+                          "status": {
+                            "enum": [
+                              "completed",
+                              "failed",
+                              "unknown",
+                              "not_started"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "items": false,
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "const": "completed"
+                    }
+                  }
+                },
+                "minContains": 1,
+                "maxContains": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "unknown"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "nozzle_results": {
+                "allOf": [
+                  {
+                    "$ref": "#/$defs/NozzleResults"
+                  },
+                  {
+                    "type": "array",
+                    "contains": {
+                      "type": "object",
+                      "required": [
+                        "status"
+                      ],
+                      "properties": {
+                        "status": {
+                          "const": "unknown"
+                        }
+                      }
+                    },
+                    "minContains": 1
+                  }
+                ]
+              }
+            },
+            "required": [
+              "nozzle_results"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "nozzle_results": {
+                "type": "array",
+                "contains": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "const": "unknown"
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "nozzle_results"
+            ]
+          },
+          "then": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "safety_lockout": {
+                    "const": true
+                  },
+                  "lockout_resolution": {
+                    "type": "null"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "safety_lockout": {
+                    "const": false
+                  },
+                  "lockout_resolution": {
+                    "$ref": "#/$defs/LockoutResolution"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "nozzle_results": {
+                "type": "array",
+                "not": {
+                  "contains": {
+                    "type": "object",
+                    "required": [
+                      "status"
+                    ],
+                    "properties": {
+                      "status": {
+                        "const": "unknown"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "required": [
+              "nozzle_results"
+            ]
+          },
+          "then": {
+            "properties": {
+              "lockout_resolution": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Sequence status aggregates ordered nozzle results. partial has exactly one completed nozzle: nozzle 1 completed with nozzle 2 failed, unknown or not_started, or nozzle 1 failed with a proven continuation and nozzle 2 completed."
+    },
+    "CommandStatusResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "command"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "command": {
+          "$ref": "#/$defs/CommandStatusDTO"
+        }
+      }
+    },
+    "HistoryTotals": {
+      "type": "object",
+      "required": [
+        "total",
+        "completed",
+        "needs_attention",
+        "in_progress"
+      ],
+      "properties": {
+        "total": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "completed": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "needs_attention": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "in_progress": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        }
+      },
+      "description": "Exact counts across all matching records, using the page's device, date, source, and status filters."
+    },
+    "HistoryRecord": {
+      "type": "object",
+      "required": [
+        "sequence_id",
+        "command_id",
+        "device_id",
+        "source",
+        "request_id",
+        "idempotency_key",
+        "status",
+        "status_sequence",
+        "created_at",
+        "started_at",
+        "completed_at",
+        "reason_code",
+        "targets",
+        "nozzle_results",
+        "safety_lockout",
+        "lockout_resolution"
+      ],
+      "properties": {
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "command_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "source": {
+          "enum": [
+            "manual",
+            "scheduled"
+          ]
+        },
+        "request_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "idempotency_key": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "status": {
+          "$ref": "#/$defs/CommandState"
+        },
+        "status_sequence": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "created_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "started_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "completed_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reason_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets"
+        },
+        "nozzle_results": {
+          "$ref": "#/$defs/NozzleResults"
+        },
+        "safety_lockout": {
+          "type": "boolean"
+        },
+        "lockout_resolution": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LockoutResolution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "description": "A durable sequence with requested doses and separate measured results per nozzle. Null measurements remain unavailable."
+    },
+    "HistoryPageResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "from_date",
+        "to_date",
+        "timezone",
+        "timezone_known",
+        "totals",
+        "records",
+        "next_cursor"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "from_date": {
+          "$ref": "#/$defs/LocalDate"
+        },
+        "to_date": {
+          "$ref": "#/$defs/LocalDate"
+        },
+        "timezone": {
+          "$ref": "#/$defs/IanaTimeZone"
+        },
+        "timezone_known": {
+          "type": "boolean"
+        },
+        "totals": {
+          "$ref": "#/$defs/HistoryTotals"
+        },
+        "records": {
+          "type": "array",
+          "maxItems": 50,
+          "items": {
+            "$ref": "#/$defs/HistoryRecord"
+          }
+        },
+        "next_cursor": {
+          "oneOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "description": "One 50-row maximum keyset page; totals use the identical filters over every matching record."
+    },
+    "HistoryDetailResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "timezone",
+        "timezone_known",
+        "record"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "timezone": {
+          "$ref": "#/$defs/IanaTimeZone"
+        },
+        "timezone_known": {
+          "type": "boolean"
+        },
+        "record": {
+          "$ref": "#/$defs/HistoryRecord"
+        }
+      },
+      "description": "Read-only selected-device sequence detail; it never causes device actuation."
+    },
+    "CommandByKeyResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "command"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "command": {
+          "$ref": "#/$defs/CommandStatusDTO"
+        }
+      },
+      "description": "Looks up the original command using the same device, installation, and idempotency key."
+    },
+    "ManualFeedRecoveryResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "resolution",
+        "command"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "created",
+            "existing"
+          ]
+        },
+        "command": {
+          "$ref": "#/$defs/CommandStatusDTO"
+        }
+      },
+      "description": "created: a terminal rejected no-feed receipt now fences the saved key. existing: the key already had a command, returned unchanged. Never starts a feed."
+    },
+    "MonitoringLimits": {
+      "type": "object",
+      "required": [
+        "do_low_mg_l",
+        "do_high_mg_l"
+      ],
+      "properties": {
+        "do_low_mg_l": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "do_high_mg_l": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        }
+      },
+      "description": "Dissolved oxygen is mg/L; thresholds are configuration only, not biological advice."
+    },
+    "Schedule": {
+      "type": "object",
+      "required": [
+        "schedule_id",
+        "local_time",
+        "weekdays",
+        "enabled",
+        "targets"
+      ],
+      "properties": {
+        "schedule_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "local_time": {
+          "$ref": "#/$defs/LocalTime"
+        },
+        "weekdays": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 7,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 7
+          },
+          "description": "ISO weekday numbers Monday=1 through Sunday=7."
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets",
+          "description": "One nozzle, or Both as nozzle 1 then nozzle 2 with a separate dose each. Legacy scalar nozzle_number/dose schedules are no longer accepted."
+        }
+      },
+      "description": "One logical schedule. Both shares one schedule_id and one occurrence per local date; it runs as one ordered sequence."
+    },
+    "ConfigurationValues": {
+      "type": "object",
+      "required": [
+        "timezone",
+        "monitoring_limits",
+        "low_feed_threshold_pct",
+        "schedules"
+      ],
+      "properties": {
+        "timezone": {
+          "$ref": "#/$defs/IanaTimeZone"
+        },
+        "monitoring_limits": {
+          "$ref": "#/$defs/MonitoringLimits"
+        },
+        "low_feed_threshold_pct": {
+          "$ref": "#/$defs/NullablePercentage"
+        },
+        "schedules": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Schedule"
+          }
+        }
+      }
+    },
+    "ConfigurationSnapshot": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/ConfigurationValues"
+        },
+        {
+          "type": "object",
+          "required": [
+            "revision",
+            "based_on_revision"
+          ],
+          "properties": {
+            "revision": {
+              "$ref": "#/$defs/PositiveInteger"
+            },
+            "based_on_revision": {
+              "$ref": "#/$defs/NonNegativeInteger"
+            }
+          }
+        }
+      ]
+    },
+    "ConfigurationWriteRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "based_on_revision",
+        "snapshot"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "based_on_revision": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/ConfigurationValues"
+        }
+      },
+      "description": "Submit a complete snapshot with compare-and-swap base revision; no partial schedule patch exists."
+    },
+    "ConfigurationWriteResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "receipt",
+        "current_state"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "receipt": {
+          "$ref": "#/$defs/ConfigurationWriteReceipt"
+        },
+        "current_state": {
+          "$ref": "#/$defs/ConfigurationCurrentState"
+        }
+      },
+      "description": "receipt is immutable for the original request; current_state is a fresh view and may report applied, rejected, or a later desired revision on replay. API acceptance is not device application."
+    },
+    "ConfigurationWriteReceipt": {
+      "type": "object",
+      "required": [
+        "revision",
+        "based_on_revision",
+        "snapshot"
+      ],
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "based_on_revision": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "snapshot": {
+          "$ref": "#/$defs/ConfigurationValues"
+        }
+      },
+      "description": "The immutable accepted full snapshot created by this request."
+    },
+    "ConfigurationCurrentState": {
+      "type": "object",
+      "required": [
+        "desired_revision",
+        "applied_revision",
+        "last_attempt_revision",
+        "last_attempt_status",
+        "error_code"
+      ],
+      "properties": {
+        "desired_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "applied_revision": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "last_attempt_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "last_attempt_status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pending",
+            "applied",
+            "rejected",
+            null
+          ]
+        },
+        "error_code": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ErrorCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "description": "Current aggregate state, independent of the immutable receipt returned for an earlier request replay."
+    },
+    "ConfigurationReport": {
+      "type": "object",
+      "required": [
+        "applied_revision",
+        "last_attempt_revision",
+        "last_attempt_status",
+        "error_code"
+      ],
+      "properties": {
+        "applied_revision": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "last_attempt_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "last_attempt_status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pending",
+            "applied",
+            "rejected",
+            null
+          ]
+        },
+        "error_code": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ErrorCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "ClockReport": {
+      "type": "object",
+      "required": [
+        "quality",
+        "uncertainty_ms"
+      ],
+      "properties": {
+        "quality": {
+          "$ref": "#/$defs/TimeQuality"
+        },
+        "uncertainty_ms": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        }
+      },
+      "if": {
+        "properties": {
+          "quality": {
+            "const": "invalid"
+          }
+        },
+        "required": [
+          "quality"
+        ]
+      },
+      "then": {
+        "properties": {
+          "uncertainty_ms": {
+            "type": "null"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "uncertainty_ms": {
+            "$ref": "#/$defs/NonNegativeInteger"
+          }
+        }
+      }
+    },
+    "ActuatorReport": {
+      "type": "object",
+      "required": [
+        "state",
+        "active_sequence_id",
+        "fault_code"
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "enum": [
+            "idle",
+            "feeding",
+            "fault",
+            "unknown"
+          ]
+        },
+        "fault_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "active_sequence_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "TelemetryValues": {
+      "type": "object",
+      "required": [
+        "measured_at",
+        "time_quality",
+        "do_mg_l",
+        "do_quality",
+        "feed_remaining_g",
+        "feed_percent",
+        "feed_quality",
+        "calibration_revision"
+      ],
+      "properties": {
+        "measured_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_quality": {
+          "$ref": "#/$defs/TimeQuality"
+        },
+        "do_mg_l": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "do_quality": {
+          "$ref": "#/$defs/SensorQuality"
+        },
+        "feed_remaining_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "feed_percent": {
+          "$ref": "#/$defs/NullablePercentage"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/SensorQuality"
+        },
+        "calibration_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "time_quality": {
+                "const": "invalid"
+              }
+            },
+            "required": [
+              "time_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "measured_at": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "measured_at": {
+                "$ref": "#/$defs/UtcDateTime"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "do_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "do_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "do_mg_l": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "do_mg_l": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "feed_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "feed_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "feed_remaining_g": {
+                "type": "number"
+              },
+              "feed_percent": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "feed_remaining_g": {
+                "type": "null"
+              },
+              "feed_percent": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "description": "A measurement value is present only with quality valid. Invalid device time has measured_at null; uncertain device time is retained but cannot be promoted to a trusted current reading."
+    },
+    "LiveTelemetrySample": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/TelemetryValues"
+        },
+        {
+          "type": "object",
+          "required": [
+            "sequence"
+          ],
+          "properties": {
+            "sequence": {
+              "$ref": "#/$defs/NonNegativeInteger"
+            }
+          }
+        }
+      ],
+      "description": "The current-boot sample whose sequence equals the enclosing per-device live_sequence."
+    },
+    "HistoricalTelemetrySample": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/TelemetryValues"
+        },
+        {
+          "type": "object",
+          "required": [
+            "boot_id",
+            "sequence"
+          ],
+          "properties": {
+            "boot_id": {
+              "$ref": "#/$defs/Uuid"
+            },
+            "sequence": {
+              "$ref": "#/$defs/NonNegativeInteger"
+            }
+          }
+        }
+      ],
+      "description": "An immutable backlog record keyed by boot_id and sequence. Backlog replay never replaces or refreshes the current live sample."
+    },
+    "MaintenanceResolution": {
+      "type": "object",
+      "required": [
+        "resolution_at",
+        "resolution_reason"
+      ],
+      "properties": {
+        "resolution_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resolution_reason": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256
+        }
+      }
+    },
+    "RunEvent": {
+      "type": "object",
+      "required": [
+        "sequence_id",
+        "event_sequence",
+        "event_type",
+        "outcome_status",
+        "source",
+        "device_at",
+        "time_quality",
+        "command_id",
+        "schedule_id",
+        "configuration_revision",
+        "occurrence_local_date",
+        "requested_dose",
+        "estimated_dispensed_g",
+        "measured_dispensed_g",
+        "measurement_quality",
+        "reason_code",
+        "maintenance_resolution",
+        "lockout_cleared",
+        "nozzle_number",
+        "step_index"
+      ],
+      "properties": {
+        "event_sequence": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "event_type": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "accepted",
+            "running",
+            "completed",
+            "failed",
+            "rejected",
+            "expired",
+            "unknown",
+            "skipped",
+            "maintenance_acknowledged",
+            "not_started"
+          ]
+        },
+        "outcome_status": {
+          "$ref": "#/$defs/RunEventOutcome"
+        },
+        "source": {
+          "type": "string",
+          "enum": [
+            "manual",
+            "scheduled"
+          ]
+        },
+        "device_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_quality": {
+          "$ref": "#/$defs/TimeQuality"
+        },
+        "command_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schedule_id": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "configuration_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "occurrence_local_date": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LocalDate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "requested_dose": {
+          "$ref": "#/$defs/Dose"
+        },
+        "estimated_dispensed_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "measured_dispensed_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "measurement_quality": {
+          "$ref": "#/$defs/MeasurementQuality"
+        },
+        "reason_code": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "maintenance_resolution": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/MaintenanceResolution"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "lockout_cleared": {
+          "type": "boolean"
+        },
+        "continuation_evidence": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ContinuationEvidence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "nozzle_number": {
+          "$ref": "#/$defs/NozzleNumber"
+        },
+        "step_index": {
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "time_quality": {
+                "const": "invalid"
+              }
+            },
+            "required": [
+              "time_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "device_at": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "device_at": {
+                "$ref": "#/$defs/UtcDateTime"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "measurement_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "measurement_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "outcome_status": {
+                "enum": [
+                  "queued",
+                  "accepted",
+                  "rejected",
+                  "expired",
+                  "unknown",
+                  "skipped",
+                  "not_started"
+                ]
+              }
+            },
+            "required": [
+              "outcome_status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "null"
+              },
+              "measurement_quality": {
+                "enum": [
+                  "unavailable",
+                  "uncalibrated",
+                  "error"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "source": {
+                "const": "manual"
+              }
+            },
+            "required": [
+              "source"
+            ]
+          },
+          "then": {
+            "properties": {
+              "command_id": {
+                "$ref": "#/$defs/Uuid"
+              },
+              "schedule_id": {
+                "type": "null"
+              },
+              "configuration_revision": {
+                "type": "null"
+              },
+              "occurrence_local_date": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "command_id": {
+                "type": "null"
+              },
+              "schedule_id": {
+                "$ref": "#/$defs/Uuid"
+              },
+              "configuration_revision": {
+                "$ref": "#/$defs/PositiveInteger"
+              },
+              "occurrence_local_date": {
+                "$ref": "#/$defs/LocalDate"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "event_type": {
+                "const": "maintenance_acknowledged"
+              }
+            },
+            "required": [
+              "event_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "outcome_status": {
+                "const": "unknown"
+              },
+              "maintenance_resolution": {
+                "$ref": "#/$defs/MaintenanceResolution"
+              },
+              "lockout_cleared": {
+                "const": true
+              },
+              "measured_dispensed_g": {
+                "type": "null"
+              },
+              "measurement_quality": {
+                "enum": [
+                  "unavailable",
+                  "uncalibrated",
+                  "error"
+                ]
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "maintenance_resolution": {
+                "type": "null"
+              },
+              "lockout_cleared": {
+                "const": false
+              }
+            }
+          }
+        },
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "event_type": {
+                  "const": "queued"
+                },
+                "outcome_status": {
+                  "const": "queued"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "accepted"
+                },
+                "outcome_status": {
+                  "const": "accepted"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "running"
+                },
+                "outcome_status": {
+                  "const": "running"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "completed"
+                },
+                "outcome_status": {
+                  "const": "completed"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "failed"
+                },
+                "outcome_status": {
+                  "const": "failed"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "rejected"
+                },
+                "outcome_status": {
+                  "const": "rejected"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "expired"
+                },
+                "outcome_status": {
+                  "const": "expired"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "unknown"
+                },
+                "outcome_status": {
+                  "const": "unknown"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "skipped"
+                },
+                "outcome_status": {
+                  "const": "skipped"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "maintenance_acknowledged"
+                },
+                "outcome_status": {
+                  "const": "unknown"
+                }
+              }
+            },
+            {
+              "properties": {
+                "event_type": {
+                  "const": "not_started"
+                },
+                "outcome_status": {
+                  "const": "not_started"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "if": {
+            "properties": {
+              "event_type": {
+                "const": "skipped"
+              }
+            },
+            "required": [
+              "event_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "source": {
+                "const": "scheduled"
+              },
+              "command_id": {
+                "type": "null"
+              },
+              "reason_code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "measured_dispensed_g": {
+                "type": "null"
+              },
+              "measurement_quality": {
+                "enum": [
+                  "unavailable",
+                  "uncalibrated",
+                  "error"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "event_type": {
+                "const": "not_started"
+              }
+            },
+            "required": [
+              "event_type"
+            ]
+          },
+          "then": {
+            "properties": {
+              "reason_code": {
+                "type": "string",
+                "minLength": 1
+              },
+              "measured_dispensed_g": {
+                "type": "null"
+              },
+              "measurement_quality": {
+                "enum": [
+                  "unavailable",
+                  "uncalibrated",
+                  "error"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "continuation_evidence": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "continuation_evidence"
+            ]
+          },
+          "then": {
+            "properties": {
+              "event_type": {
+                "const": "failed"
+              },
+              "step_index": {
+                "const": 1
+              },
+              "nozzle_number": {
+                "const": 1
+              },
+              "measurement_quality": {
+                "const": "valid"
+              },
+              "time_quality": {
+                "enum": [
+                  "synced",
+                  "rtc"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "description": "Each event is one nozzle step in a stable sequence_id/event_sequence stream; device reservation spans actuation and settling. Absent or null continuation_evidence never continues to nozzle 2 after a nozzle 1 failure."
+    },
+    "ContinuationEvidence": {
+      "type": "object",
+      "required": [
+        "safe_stop",
+        "device_fault",
+        "baseline_ready_at"
+      ],
+      "properties": {
+        "safe_stop": {
+          "const": true,
+          "description": "Nozzle 1 is definitively stopped."
+        },
+        "device_fault": {
+          "const": false,
+          "description": "No device-wide fault or lockout exists."
+        },
+        "baseline_ready_at": {
+          "$ref": "#/$defs/UtcDateTime",
+          "description": "Device time of the fresh valid settled shared-scale baseline. Nozzle 2 must start by this time plus scheduler_wake_grace_ms."
+        }
+      },
+      "additionalProperties": false,
+      "description": "Device-authored proof, bound to its sequence and step 1, that a failed nozzle 1 may continue to the already-authorized nozzle 2 once. Nozzle 1 is never retried."
+    },
+    "DeviceSyncRequest": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "boot_id",
+        "live_sequence",
+        "firmware_version",
+        "capabilities_revision",
+        "clock",
+        "actuator",
+        "configuration",
+        "latest_sample",
+        "backlog_samples",
+        "events"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "boot_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "live_sequence": {
+          "$ref": "#/$defs/NonNegativeInteger",
+          "description": "Per-device monotonic live counter that survives reboots; when latest_sample is present, its sequence must equal this value."
+        },
+        "firmware_version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "capabilities_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "clock": {
+          "$ref": "#/$defs/ClockReport"
+        },
+        "actuator": {
+          "$ref": "#/$defs/ActuatorReport"
+        },
+        "configuration": {
+          "$ref": "#/$defs/ConfigurationReport"
+        },
+        "latest_sample": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/LiveTelemetrySample"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Current live sample for the enclosing boot_id; historical backlog is separate and cannot update the current sample pointer."
+        },
+        "backlog_samples": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/HistoricalTelemetrySample"
+          },
+          "description": "Bounded immutable history. At most 100 samples total are accepted; the live sample counts toward that limit."
+        },
+        "events": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/RunEvent"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "latest_sample": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "latest_sample"
+            ]
+          },
+          "then": {
+            "properties": {
+              "backlog_samples": {
+                "type": "array",
+                "maxItems": 99
+              }
+            }
+          }
+        }
+      ],
+      "description": "Authenticated device sync. Runtime validation also requires latest_sample.sequence to equal live_sequence and rejects duplicate identities within one body. Persist samples and contact atomically, and ACK only identities durably stored. Old, future, uncertain, or invalid device time cannot create a fresh trusted metric."
+    },
+    "SampleAcknowledgement": {
+      "type": "object",
+      "required": [
+        "boot_id",
+        "sequence"
+      ],
+      "properties": {
+        "boot_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        }
+      }
+    },
+    "EventAcknowledgement": {
+      "type": "object",
+      "required": [
+        "sequence_id",
+        "event_sequence"
+      ],
+      "properties": {
+        "event_sequence": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        }
+      }
+    },
+    "CommandDelivery": {
+      "type": "object",
+      "required": [
+        "command_type",
+        "command_id",
+        "sequence_id",
+        "device_id",
+        "request_id",
+        "idempotency_key",
+        "targets",
+        "capabilities_revision",
+        "created_at",
+        "start_before",
+        "status"
+      ],
+      "properties": {
+        "command_type": {
+          "const": "feed"
+        },
+        "command_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "idempotency_key": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "targets": {
+          "$ref": "#/$defs/ManualFeedTargets"
+        },
+        "capabilities_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "created_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "start_before": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "scheduler_wake_grace_ms": {
+          "$ref": "#/$defs/NullableNonNegativeInteger",
+          "description": "For Both, nozzle 2 must start by the first valid settled completion time plus this device bound."
+        },
+        "status": {
+          "enum": [
+            "queued",
+            "accepted"
+          ]
+        }
+      },
+      "description": "One durable ordered sequence; later nozzles require prior stop and a valid settled shared-weight baseline."
+    },
+    "DeviceSyncResponse": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "request_id",
+        "server_time",
+        "acknowledged_samples",
+        "acknowledged_events",
+        "desired_configuration",
+        "command",
+        "next_sync_after_ms"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "server_time": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "acknowledged_samples": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/SampleAcknowledgement"
+          },
+          "description": "Only exact sample identities durably inserted or confirmed as immutable duplicates are acknowledged."
+        },
+        "acknowledged_events": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/EventAcknowledgement"
+          }
+        },
+        "desired_configuration": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfigurationSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "command": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/CommandDelivery"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "next_sync_after_ms": {
+          "$ref": "#/$defs/PositiveInteger"
+        }
+      },
+      "description": "Sample ACKs mean those immutable identities are durably stored; they do not imply that historical replay replaced current state."
+    },
+    "NozzleNumber": {
+      "type": "integer",
+      "enum": [
+        1,
+        2
+      ]
+    },
+    "NozzleCapability": {
+      "type": "object",
+      "required": [
+        "enabled",
+        "dose_modes",
+        "fixed_portion_ids",
+        "min_dose_g",
+        "max_dose_g",
+        "dose_step_g",
+        "measured_dispensed_g",
+        "max_actuation_ms",
+        "minimum_cooldown_ms"
+      ],
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "dose_modes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/DoseMode"
+          }
+        },
+        "fixed_portion_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/FixedPortionDose/properties/fixed_portion_id"
+          }
+        },
+        "min_dose_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "max_dose_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "dose_step_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "measured_dispensed_g": {
+          "type": "boolean"
+        },
+        "max_actuation_ms": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "minimum_cooldown_ms": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "dose_modes": {
+                "type": "array",
+                "contains": {
+                  "const": "grams"
+                }
+              }
+            },
+            "required": [
+              "dose_modes"
+            ]
+          },
+          "then": {
+            "properties": {
+              "min_dose_g": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "max_dose_g": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              },
+              "dose_step_g": {
+                "type": "number",
+                "exclusiveMinimum": 0
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "min_dose_g": {
+                "type": "null"
+              },
+              "max_dose_g": {
+                "type": "null"
+              },
+              "dose_step_g": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "dose_modes": {
+                "type": "array",
+                "contains": {
+                  "const": "fixed_portion"
+                }
+              }
+            },
+            "required": [
+              "dose_modes"
+            ]
+          },
+          "then": {
+            "properties": {
+              "fixed_portion_ids": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "fixed_portion_ids": {
+                "type": "array",
+                "maxItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "enabled": {
+                "const": true
+              }
+            },
+            "required": [
+              "enabled"
+            ]
+          },
+          "then": {
+            "properties": {
+              "dose_modes": {
+                "type": "array",
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "dose_modes": {
+                "type": "array",
+                "maxItems": 0
+              },
+              "measured_dispensed_g": {
+                "const": false
+              }
+            }
+          }
+        }
+      ],
+      "description": "Approved capability for one nozzle. Null limits are unknown, not zero."
+    },
+    "ManualFeedTarget": {
+      "type": "object",
+      "required": [
+        "nozzle_number",
+        "dose"
+      ],
+      "properties": {
+        "nozzle_number": {
+          "$ref": "#/$defs/NozzleNumber"
+        },
+        "dose": {
+          "$ref": "#/$defs/Dose"
+        }
+      }
+    },
+    "ManualFeedTargets": {
+      "oneOf": [
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/ManualFeedTarget"
+          }
+        },
+        {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "type": "object",
+              "required": [
+                "nozzle_number",
+                "dose"
+              ],
+              "properties": {
+                "nozzle_number": {
+                  "const": 1
+                },
+                "dose": {
+                  "$ref": "#/$defs/Dose"
+                }
+              }
+            },
+            {
+              "type": "object",
+              "required": [
+                "nozzle_number",
+                "dose"
+              ],
+              "properties": {
+                "nozzle_number": {
+                  "const": 2
+                },
+                "dose": {
+                  "$ref": "#/$defs/Dose"
+                }
+              }
+            }
+          ],
+          "items": false
+        }
+      ],
+      "description": "One selected nozzle, or exactly nozzle 1 followed by nozzle 2."
+    },
+    "NozzleResultStatus": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "queued",
+        "accepted",
+        "running",
+        "completed",
+        "failed",
+        "rejected",
+        "expired",
+        "unknown"
+      ]
+    },
+    "NozzleResult": {
+      "type": "object",
+      "required": [
+        "nozzle_number",
+        "status",
+        "requested_dose",
+        "estimated_dispensed_g",
+        "measured_dispensed_g",
+        "measurement_quality"
+      ],
+      "properties": {
+        "nozzle_number": {
+          "$ref": "#/$defs/NozzleNumber"
+        },
+        "status": {
+          "$ref": "#/$defs/NozzleResultStatus"
+        },
+        "requested_dose": {
+          "$ref": "#/$defs/Dose"
+        },
+        "estimated_dispensed_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "measured_dispensed_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "measurement_quality": {
+          "$ref": "#/$defs/MeasurementQuality"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "measurement_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "measurement_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "not_started",
+                  "queued",
+                  "accepted",
+                  "rejected",
+                  "expired",
+                  "unknown"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "properties": {
+              "measured_dispensed_g": {
+                "type": "null"
+              },
+              "measurement_quality": {
+                "enum": [
+                  "unavailable",
+                  "uncalibrated",
+                  "error"
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "description": "Requested, estimated and measured amounts stay separate. Unknown and not_started results never invent measurements."
+    },
+    "NozzleResults": {
+      "oneOf": [
+        {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "$ref": "#/$defs/NozzleResult"
+          }
+        },
+        {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 2,
+          "prefixItems": [
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/NozzleResult"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "nozzle_number": {
+                      "const": 1
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "allOf": [
+                {
+                  "$ref": "#/$defs/NozzleResult"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "nozzle_number": {
+                      "const": 2
+                    }
+                  }
+                }
+              ]
+            }
+          ],
+          "items": false
+        }
+      ],
+      "description": "Results retain target order and include not_started steps."
+    },
+    "ScheduledOccurrenceTarget": {
+      "type": "object",
+      "required": [
+        "schedule_id",
+        "nozzle_number",
+        "occurrence_local_date",
+        "configuration_revision",
+        "dose"
+      ],
+      "properties": {
+        "schedule_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "nozzle_number": {
+          "$ref": "#/$defs/NozzleNumber"
+        },
+        "occurrence_local_date": {
+          "$ref": "#/$defs/LocalDate"
+        },
+        "configuration_revision": {
+          "$ref": "#/$defs/PositiveInteger"
+        },
+        "dose": {
+          "$ref": "#/$defs/Dose"
+        }
+      },
+      "description": "Occurrence identity is device_id + schedule_id + local date; nozzle, dose and revision are not identity."
+    },
+    "ScheduledSequenceAdmission": {
+      "type": "object",
+      "required": [
+        "protocol_major",
+        "device_id",
+        "sequence_id",
+        "due_at",
+        "admitted_at",
+        "first_start_before",
+        "targets"
+      ],
+      "properties": {
+        "protocol_major": {
+          "$ref": "#/$defs/ProtocolMajor"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "due_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "admitted_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "first_start_before": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "targets": {
+          "oneOf": [
+            {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/ScheduledOccurrenceTarget"
+              }
+            },
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/ScheduledOccurrenceTarget"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "nozzle_number": {
+                          "const": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/ScheduledOccurrenceTarget"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "nozzle_number": {
+                          "const": 2
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "items": false
+            }
+          ]
+        }
+      },
+      "description": "Admit same-time due occurrences atomically under one device reservation. first_start_before gates target 1 only; target 2 starts only after nozzle 1 stops and a valid settled shared-weight baseline. Its deadline is baseline_ready_at + scheduler_wake_grace_ms. A null settling limit is unknown, never zero."
+    },
+    "ConfigurationReadResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "receipt",
+        "request_status",
+        "request_error_code",
+        "current_state",
+        "desired_snapshot",
+        "applied_snapshot"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "receipt": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfigurationWriteReceipt"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "request_status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pending",
+            "applied",
+            "rejected",
+            null
+          ]
+        },
+        "request_error_code": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ErrorCode"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "current_state": {
+          "$ref": "#/$defs/ConfigurationCurrentState"
+        },
+        "desired_snapshot": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfigurationSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "applied_snapshot": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/ConfigurationSnapshot"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "description": "Authorized desired/applied snapshot read; a missing request receipt remains unresolved and does not authorize a replacement request key."
+    },
+    "NextAppliedOccurrenceTarget": {
+      "type": "object",
+      "required": [
+        "schedule_id",
+        "nozzle_number",
+        "dose"
+      ],
+      "properties": {
+        "schedule_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "nozzle_number": {
+          "$ref": "#/$defs/NozzleNumber"
+        },
+        "dose": {
+          "$ref": "#/$defs/Dose"
+        }
+      },
+      "additionalProperties": false
+    },
+    "NextAppliedOccurrence": {
+      "type": "object",
+      "required": [
+        "occurrence_local_date",
+        "local_time",
+        "timezone",
+        "at",
+        "targets"
+      ],
+      "properties": {
+        "occurrence_local_date": {
+          "$ref": "#/$defs/LocalDate"
+        },
+        "local_time": {
+          "$ref": "#/$defs/LocalTime"
+        },
+        "timezone": {
+          "$ref": "#/$defs/IanaTimeZone"
+        },
+        "at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "targets": {
+          "oneOf": [
+            {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 1,
+              "items": {
+                "$ref": "#/$defs/NextAppliedOccurrenceTarget"
+              }
+            },
+            {
+              "type": "array",
+              "minItems": 2,
+              "maxItems": 2,
+              "prefixItems": [
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/NextAppliedOccurrenceTarget"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "nozzle_number": {
+                          "const": 1
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "allOf": [
+                    {
+                      "$ref": "#/$defs/NextAppliedOccurrenceTarget"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "nozzle_number": {
+                          "const": 2
+                        }
+                      }
+                    }
+                  ]
+                }
+              ],
+              "items": false
+            }
+          ],
+          "description": "Same-time cross-nozzle occurrences are returned together in nozzle 1 then nozzle 2 order."
+        }
+      },
+      "additionalProperties": false
+    },
+    "NextAppliedOccurrenceResponse": {
+      "type": "object",
+      "required": [
+        "request_id",
+        "timezone",
+        "occurrence"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "timezone": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/IanaTimeZone"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "occurrence": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/NextAppliedOccurrence"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "additionalProperties": false,
+      "description": "Calculated from the device-applied revision only; pending and rejected desired edits never appear as next feeding."
+    },
+    "MonitoringDisplayPolicy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "device_offline_after_seconds",
+        "metric_outdated_after_seconds",
+        "foreground_refresh_after_seconds"
+      ],
+      "properties": {
+        "kind": {
+          "const": "planning_display_policy"
+        },
+        "device_offline_after_seconds": {
+          "const": 45
+        },
+        "metric_outdated_after_seconds": {
+          "const": 30
+        },
+        "foreground_refresh_after_seconds": {
+          "const": 15
+        }
+      },
+      "description": "Display defaults only; they are not firmware cadence, detection, or hardware guarantees."
+    },
+    "MonitoringCurrentSample": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "boot_id",
+        "sequence",
+        "live_sequence",
+        "measured_at",
+        "time_quality",
+        "do_mg_l",
+        "do_quality",
+        "feed_remaining_g",
+        "feed_percent",
+        "feed_quality",
+        "calibration_revision",
+        "received_at",
+        "sample_age_seconds",
+        "ingestion_age_seconds",
+        "do_freshness",
+        "feed_freshness"
+      ],
+      "properties": {
+        "boot_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "sequence": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "live_sequence": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "measured_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_quality": {
+          "$ref": "#/$defs/TimeQuality"
+        },
+        "do_mg_l": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "do_quality": {
+          "$ref": "#/$defs/SensorQuality"
+        },
+        "feed_remaining_g": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "feed_percent": {
+          "$ref": "#/$defs/NullablePercentage"
+        },
+        "feed_quality": {
+          "$ref": "#/$defs/SensorQuality"
+        },
+        "calibration_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "received_at": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "sample_age_seconds": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "ingestion_age_seconds": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "do_freshness": {
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        },
+        "feed_freshness": {
+          "enum": [
+            "fresh",
+            "stale",
+            "unknown"
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "do_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "do_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "do_mg_l": {
+                "type": "number"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "do_mg_l": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "feed_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "feed_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "feed_remaining_g": {
+                "type": "number"
+              },
+              "feed_percent": {
+                "type": "number"
+              },
+              "calibration_revision": {
+                "$ref": "#/$defs/PositiveInteger"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "feed_remaining_g": {
+                "type": "null"
+              },
+              "feed_percent": {
+                "type": "null"
+              },
+              "calibration_revision": {
+                "type": "null"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Current pointer only. Untrusted or unsupported values are returned unavailable; stale trusted values retain their timestamp."
+    },
+    "MonitoringConfigurationState": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "desired_revision",
+        "applied_revision",
+        "pending_revision",
+        "last_attempt_status",
+        "error_code"
+      ],
+      "properties": {
+        "desired_revision": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "applied_revision": {
+          "$ref": "#/$defs/NullableNonNegativeInteger"
+        },
+        "pending_revision": {
+          "$ref": "#/$defs/NullablePositiveInteger"
+        },
+        "last_attempt_status": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "pending",
+            "applied",
+            "rejected",
+            null
+          ]
+        },
+        "error_code": {
+          "oneOf": [
+            {
+              "type": "string",
+              "maxLength": 128
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "MonitoringSnapshotResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "device_id",
+        "server_time",
+        "profile",
+        "contact",
+        "configuration",
+        "latest_sample",
+        "display_policy"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "server_time": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "profile": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "firmware_version",
+            "protocol_major",
+            "capabilities_revision",
+            "capabilities",
+            "is_simulated"
+          ],
+          "properties": {
+            "firmware_version": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "protocol_major": {
+              "$ref": "#/$defs/ProtocolMajor"
+            },
+            "capabilities_revision": {
+              "$ref": "#/$defs/PositiveInteger"
+            },
+            "capabilities": {
+              "$ref": "#/$defs/CapabilityProfile"
+            },
+            "is_simulated": {
+              "type": "boolean"
+            }
+          }
+        },
+        "contact": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "authenticated_at",
+            "age_seconds",
+            "freshness"
+          ],
+          "properties": {
+            "authenticated_at": {
+              "oneOf": [
+                {
+                  "$ref": "#/$defs/UtcDateTime"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "age_seconds": {
+              "$ref": "#/$defs/NullableNonNegativeInteger"
+            },
+            "freshness": {
+              "enum": [
+                "fresh",
+                "stale",
+                "unknown"
+              ]
+            }
+          }
+        },
+        "configuration": {
+          "$ref": "#/$defs/MonitoringConfigurationState"
+        },
+        "latest_sample": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/MonitoringCurrentSample"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "display_policy": {
+          "$ref": "#/$defs/MonitoringDisplayPolicy"
+        }
+      },
+      "description": "Protected selected-device monitoring state. Contact age is server-authenticated; it remains distinct from sensor availability and sample freshness."
+    },
+    "DoGraphBucket": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "bucket_start",
+        "bucket_end",
+        "measured_at",
+        "received_at",
+        "do_mg_l",
+        "do_quality",
+        "gap_reason",
+        "sample_count"
+      ],
+      "properties": {
+        "bucket_start": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "bucket_end": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "measured_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "received_at": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/UtcDateTime"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "do_mg_l": {
+          "$ref": "#/$defs/NullableFiniteNonNegativeNumber"
+        },
+        "do_quality": {
+          "oneOf": [
+            {
+              "$ref": "#/$defs/SensorQuality"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "gap_reason": {
+          "oneOf": [
+            {
+              "enum": [
+                "no_sample",
+                "unsupported",
+                "untrusted_time",
+                "unavailable",
+                "uncalibrated",
+                "error"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sample_count": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "do_quality": {
+                "const": "valid"
+              }
+            },
+            "required": [
+              "do_quality"
+            ]
+          },
+          "then": {
+            "properties": {
+              "do_mg_l": {
+                "type": "number"
+              },
+              "gap_reason": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "do_mg_l": {
+                "type": "null"
+              },
+              "gap_reason": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ],
+      "description": "One equal-width graph bin. The newest sample in a bin determines its value or gap, so a later invalid reading cannot be hidden by an earlier valid one."
+    },
+    "DoGraphResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "device_id",
+        "server_time",
+        "window",
+        "window_start",
+        "window_end",
+        "requested_count",
+        "returned_count",
+        "sample_count",
+        "valid_sample_count",
+        "invalid_time_sample_count",
+        "gap_count",
+        "samples",
+        "display_policy"
+      ],
+      "properties": {
+        "request_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "device_id": {
+          "$ref": "#/$defs/Uuid"
+        },
+        "server_time": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "window": {
+          "enum": [
+            "1h",
+            "6h",
+            "24h"
+          ]
+        },
+        "window_start": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "window_end": {
+          "$ref": "#/$defs/UtcDateTime"
+        },
+        "requested_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "returned_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "sample_count": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "valid_sample_count": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "invalid_time_sample_count": {
+          "$ref": "#/$defs/NonNegativeInteger"
+        },
+        "gap_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "samples": {
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/DoGraphBucket"
+          }
+        },
+        "display_policy": {
+          "$ref": "#/$defs/MonitoringDisplayPolicy"
+        }
+      },
+      "description": "Protected equal-width aggregation. Time bounds are UTC [window_start, window_end); sample_count counts timed rows in that window, invalid_time_sample_count counts invalid or uncertain samples received during it, and gap_count counts null bins."
+    },
+    "AlertTimestamp": {
+      "allOf": [
+        { "$ref": "#/$defs/UtcDateTime" },
+        {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?(?:Z|\\+00:00)$"
+        }
+      ]
+    },
+    "AlertEventDTO": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "device_id",
+        "kind",
+        "value",
+        "limit",
+        "measured_at",
+        "raised_at",
+        "applied_revision",
+        "boot_id",
+        "sample_sequence",
+        "sequence_id",
+        "is_simulated",
+        "is_read",
+        "is_dismissed"
+      ],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "kind": {
+          "enum": [
+            "do_low",
+            "do_high",
+            "feed_low",
+            "feeding_failed",
+            "feeding_partial",
+            "feeding_unknown",
+            "feeding_unmeasured"
+          ]
+        },
+        "value": { "type": ["number", "null"] },
+        "limit": { "type": ["number", "null"] },
+        "measured_at": {
+          "oneOf": [{ "$ref": "#/$defs/AlertTimestamp" }, { "type": "null" }]
+        },
+        "raised_at": { "$ref": "#/$defs/AlertTimestamp" },
+        "applied_revision": { "type": ["integer", "null"], "minimum": 1 },
+        "boot_id": { "oneOf": [{ "$ref": "#/$defs/Uuid" }, { "type": "null" }] },
+        "sample_sequence": { "type": ["integer", "null"], "minimum": 0 },
+        "sequence_id": {
+          "oneOf": [{ "$ref": "#/$defs/Uuid" }, { "type": "null" }]
+        },
+        "is_simulated": { "type": "boolean" },
+        "is_read": { "type": "boolean" },
+        "is_dismissed": { "const": false }
+      },
+      "oneOf": [
+        {
+          "properties": {
+            "kind": { "enum": ["do_low", "do_high", "feed_low"] },
+            "value": { "type": "number" },
+            "limit": { "type": "number" },
+            "measured_at": { "type": "string" },
+            "applied_revision": { "type": "integer" },
+            "boot_id": { "type": "string" },
+            "sample_sequence": { "type": "integer" },
+            "sequence_id": { "type": "null" }
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "enum": [
+                "feeding_failed",
+                "feeding_partial",
+                "feeding_unknown",
+                "feeding_unmeasured"
+              ]
+            },
+            "value": { "type": "null" },
+            "limit": { "type": "null" },
+            "measured_at": { "type": "null" },
+            "applied_revision": { "type": "null" },
+            "boot_id": { "type": "null" },
+            "sample_sequence": { "type": "null" },
+            "sequence_id": { "type": "string" }
+          }
+        }
+      ],
+      "allOf": [
+        {
+          "if": { "properties": { "is_dismissed": { "const": true } } },
+          "then": { "properties": { "is_read": { "const": true } } }
+        }
+      ],
+      "description": "A reading crossing carries its sample, value and applied limit and a null sequence_id. A feeding outcome references its feed sequence and has null reading facts; it is raised once per sequence and kind when the sequence reaches that final status."
+    },
+    "NotificationsPageResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "device_id",
+        "events",
+        "has_more",
+        "unread_count",
+        "next_cursor"
+      ],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "events": {
+          "type": "array",
+          "maxItems": 50,
+          "items": { "$ref": "#/$defs/AlertEventDTO" }
+        },
+        "has_more": { "type": "boolean" },
+        "unread_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647
+        },
+        "next_cursor": {
+          "type": ["string", "null"],
+          "maxLength": 1024,
+          "pattern": "^[A-Za-z0-9_-]+$"
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "has_more": { "const": true } } },
+          "then": { "properties": { "next_cursor": { "type": "string" } } },
+          "else": { "properties": { "next_cursor": { "type": "null" } } }
+        }
+      ]
+    },
+    "NotificationActionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_major", "request_id", "action"],
+      "properties": {
+        "protocol_major": { "$ref": "#/$defs/ProtocolMajor" },
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "action": { "enum": ["read", "dismiss"] }
+      }
+    },
+    "NotificationActionResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "request_id",
+        "device_id",
+        "event_id",
+        "is_read",
+        "is_dismissed"
+      ],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "event_id": { "$ref": "#/$defs/Uuid" },
+        "is_read": { "type": "boolean" },
+        "is_dismissed": { "type": "boolean" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "is_dismissed": { "const": true } } },
+          "then": { "properties": { "is_read": { "const": true } } }
+        }
+      ]
+    },
+    "NotificationBulkCutoff": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["raised_at", "event_id"],
+      "properties": {
+        "raised_at": { "$ref": "#/$defs/AlertTimestamp" },
+        "event_id": { "$ref": "#/$defs/Uuid" }
+      }
+    },
+    "NotificationBulkActionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_major", "request_id", "action", "through"],
+      "properties": {
+        "protocol_major": { "$ref": "#/$defs/ProtocolMajor" },
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "action": { "enum": ["mark_read", "dismiss"] },
+        "through": { "$ref": "#/$defs/NotificationBulkCutoff" }
+      }
+    },
+    "NotificationBulkActionResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "device_id", "action", "through"],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "action": { "enum": ["mark_read", "dismiss"] },
+        "through": { "$ref": "#/$defs/NotificationBulkCutoff" }
+      }
+    },
+    "NotificationEventReadResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "device_id", "event"],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "event": { "$ref": "#/$defs/AlertEventDTO" }
+      }
+    },
+    "AndroidPushTokenRegistrationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_major", "request_id", "platform", "eas_project_id", "expo_push_token"],
+      "properties": {
+        "protocol_major": { "$ref": "#/$defs/ProtocolMajor" },
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "platform": { "const": "android" },
+        "eas_project_id": { "const": "1b3dc89f-3111-49d4-b91f-d5567e71d996" },
+        "expo_push_token": { "type": "string", "minLength": 24, "maxLength": 280, "pattern": "^(Exponent|Expo)PushToken\\[[A-Za-z0-9_-]{1,255}\\]$" }
+      }
+    },
+    "AndroidPushTokenRegistrationResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "registered"],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "registered": { "const": true }
+      }
+    },
+    "AndroidPushTokenRevocationRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["protocol_major", "request_id"],
+      "properties": {
+        "protocol_major": { "$ref": "#/$defs/ProtocolMajor" },
+        "request_id": { "$ref": "#/$defs/Uuid" }
+      }
+    },
+    "AndroidPushTokenRevocationResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["request_id", "registered"],
+      "properties": {
+        "request_id": { "$ref": "#/$defs/Uuid" },
+        "registered": { "const": false }
+      }
+    },
+    "NotificationPushPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["event_id", "device_id", "route_hint"],
+      "properties": {
+        "event_id": { "$ref": "#/$defs/Uuid" },
+        "device_id": { "$ref": "#/$defs/Uuid" },
+        "route_hint": { "const": "notifications" }
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "revision": 1,
+  "based_on_revision": 0,
+  "timezone": "Asia/Manila",
+  "monitoring_limits": {
+    "do_low_mg_l": null,
+    "do_high_mg_l": null
+  },
+  "low_feed_threshold_pct": null,
+  "schedules": [
+    {
+      "schedule_id": "77777777-7777-4777-8777-777777777777",
+      "local_time": "12:00",
+      "weekdays": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "enabled": true,
+      "targets": [
+        {
+          "nozzle_number": 1,
+          "dose": {
+            "mode": "grams",
+            "amount_g": 50
+          }
+        },
+        {
+          "nozzle_number": 2,
+          "dose": {
+            "mode": "grams",
+            "amount_g": 30
+          }
+        }
+      ]
+    }
+  ]
+}
