@@ -1,0 +1,22 @@
+{
+  "commissioned": false,
+  "independent_cutoff_verified": false,
+  "stop_behavior_verified": false,
+  "load_cell_calibrated": false,
+  "load_cell_calibration_file": "/etc/aquafeed/loadcell-calibration.json",
+  "settle_tolerance_g": null,
+  "settle_window_samples": null,
+  "maximum_settling_seconds": null,
+  "post_feed_settle_delay_seconds": null,
+  "limit_switch_active_level": null,
+  "swing_position_feedback_verified": false,
+  "blower_relay_active_level": null,
+  "swing": {
+    "maximum_travel_seconds": null,
+    "pwm_duty_percent": null
+  },
+  "nozzles": {
+    "1": {"maximum_run_seconds": null, "pwm_duty_percent": null},
+    "2": {"maximum_run_seconds": null, "pwm_duty_percent": null}
+  }
+}

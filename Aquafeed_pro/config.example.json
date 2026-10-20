@@ -1,0 +1,29 @@
+{
+  "device_id": "",
+  "supabase_url": "",
+  "supabase_publishable_key": "",
+  "credential_file": "/etc/aquafeed/device-credential",
+  "data_dir": "/var/lib/aquafeed",
+  "firmware_version": "0.1.0-dev",
+  "protocol_major": 2,
+  "capabilities_revision": null,
+  "commissioned": false,
+  "gpio_enabled": false,
+  "timezone": "Asia/Manila",
+  "pins_bcm": {
+    "nozzle_1": 18,
+    "nozzle_2": 17,
+    "swing_in1": 22,
+    "swing_in2": 23,
+    "blower_relay": 24,
+    "hx711_dout": 5,
+    "hx711_sck": 6,
+    "nozzle_1_index": 16,
+    "nozzle_2_index": 20,
+    "swing_home": 21,
+    "swing_end": 26
+  },
+  "physical_profile": null,
+  "calibration_file": "/var/lib/aquafeed/loadcell-calibration.json",
+  "bluetooth_sensor": null
+}

@@ -1,0 +1,22 @@
+[Unit]
+Description=AquaFeedPro feeder controller
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=aquafeed
+Group=aquafeed
+Environment=AQUAFEED_CONFIG=/etc/aquafeed/config.json
+WorkingDirectory=/opt/aquafeed/current
+ExecStart=/usr/bin/python3 -m aquafeed
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/aquafeed
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
