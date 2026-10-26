@@ -26,6 +26,18 @@ def require_actuation_enabled(config: dict) -> None:
         raise RuntimeError("Commissioning evidence missing: " + ", ".join(missing))
 
 
+def require_flow_test_enabled(config: dict) -> None:
+    """Gate actuator-only flow checks without requiring load-cell calibration."""
+    if config.get("commissioned") is not True:
+        raise RuntimeError("Hardware is not commissioned; no GPIO will be initialized")
+    if os.environ.get("AQUAFEED_HARDWARE_ENABLE") != "YES_I_HAVE_VERIFIED_THE_WIRING":
+        raise RuntimeError("Set AQUAFEED_HARDWARE_ENABLE only after reviewing the wiring and cutoff")
+    required = ("independent_cutoff_verified", "stop_behavior_verified")
+    missing = [key for key in required if config.get(key) is not True]
+    if missing:
+        raise RuntimeError("Commissioning evidence missing: " + ", ".join(missing))
+
+
 def gpio_module():
     try:
         import RPi.GPIO as GPIO

@@ -2,6 +2,8 @@
 
 `drop_feed.py` and `scatter_feed.py` are the two mode entry points. Hardware drivers are in `hardware/` and use BCM numbering from the AquaFeedPro Revision B wiring handoff:
 
+`drop_feed_indi.py` and `scatter_feed_indi.py` are standalone flow-check variants that omit all HX711/load-cell access. They run the actuator sequence only and print `load_cell=not_used`. Their safety gate requires commissioning, a verified independent cutoff, verified stop behavior, and the explicit environment opt-in, but does not require load-cell calibration. No load-cell library or calibration file is read by these two variants.
+
 | Function | BCM | Reference connection |
 | --- | ---: | --- |
 | Nozzle 1 motor IN1 | 18 | DRV8871 IN1; IN2 grounded |
@@ -35,3 +37,12 @@ python3 drop_feed.py --nozzle 1 --run-seconds <approved-duration>
 ```
 
 For scatter, use `python3 scatter_feed.py` with the same options. These commands actuate real hardware once the explicit gate is enabled. The swing limit pins are proposed rather than present in the schematic; do not enable scatter until switches and polarity are installed and verified. This code does not provide a remote command queue, persistent command journal, watchdog, or production service integration.
+
+The independent variants accept the same `--nozzle`, `--run-seconds`, and `--config` arguments:
+
+```sh
+python3 drop_feed_indi.py --nozzle 1 --run-seconds <approved-duration>
+python3 scatter_feed_indi.py --nozzle 1 --run-seconds <approved-duration>
+```
+
+They still actuate real hardware when enabled. The `*_indi.py` suffix means independent of load-cell measurement, not electrically isolated or safe to run concurrently with another feeder process.
