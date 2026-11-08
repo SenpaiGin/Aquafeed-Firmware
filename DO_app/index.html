@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1718">
+  <title>DO Monitor · AquaFeed</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <header class="app-header">
+    <a class="brand" href="#measure" aria-label="AquaFeed DO monitor">
+      <span class="brand-mark" aria-hidden="true">≈</span>
+      <span>AQUAFEED <span class="eyebrow">/ FIELD TOOLS</span></span>
+    </a>
+    <div class="header-actions">
+      <span id="connection-state" class="status-pill"><i></i><span>Disconnected</span></span>
+      <button id="connect-button" class="button button-primary">Connect meter</button>
+      <button id="disconnect-button" class="button button-quiet" disabled>Disconnect</button>
+    </div>
+  </header>
+
+  <section class="intro">
+    <div>
+      <div class="eyebrow">BLE-9100 · LOCAL BLUETOOTH SESSION</div>
+      <h1>Dissolved oxygen</h1>
+      <p>Read and record measurements from your YINMIK BLE-9100.</p>
+    </div>
+    <div class="device-chip"><span class="device-icon">◉</span><div><strong id="device-name">No meter connected</strong><small id="last-seen">Turn on Bluetooth mode on the meter to connect.</small></div></div>
+  </section>
+
+  <nav class="tabs" aria-label="Monitor pages">
+    <button class="tab active" data-page="measure">Measure</button>
+    <button class="tab" data-page="records">Records <span id="record-count" class="tab-count">0</span></button>
+    <button class="tab" data-page="settings">Settings</button>
+    <button class="tab" data-page="calibration">Calibration</button>
+  </nav>
+
+  <section id="page-measure" class="page active">
+    <div class="measurement-layout">
+      <article class="panel main-reading">
+        <div class="panel-heading">
+          <div><div class="eyebrow">CURRENT READING</div><h2 id="reading-label">Dissolved oxygen</h2></div>
+          <div class="segmented" role="group" aria-label="Dissolved oxygen display unit">
+            <button class="unit-button active" data-do-unit="mg">mg/L</button>
+            <button class="unit-button" data-do-unit="sat">% saturation</button>
+          </div>
+        </div>
+        <div class="value-row"><span id="reading-value" class="reading-value">—</span><span id="reading-unit" class="reading-unit">mg/L</span></div>
+        <div class="reading-foot">
+          <span id="reading-quality" class="quality-label"><i></i><span>Waiting for a valid frame</span></span>
+          <span id="reading-time" class="muted">No reading yet</span>
+        </div>
+        <div class="chart-wrap">
+          <div class="chart-heading"><span>Recent readings</span><span class="muted">This browser session</span></div>
+          <svg id="trend-chart" viewBox="0 0 700 120" role="img" aria-label="Recent dissolved oxygen readings">
+            <line x1="0" y1="105" x2="700" y2="105" class="chart-baseline"></line>
+            <polyline id="trend-line" points="" class="chart-line"></polyline>
+            <circle id="trend-point" cx="0" cy="0" r="4" class="chart-point" hidden></circle>
+          </svg>
+          <div id="chart-empty" class="chart-empty">Readings will appear here after the meter connects.</div>
+        </div>
+        <div class="reading-controls">
+          <button id="hold-button" class="button button-secondary" disabled>Freeze display</button>
+          <div class="save-row"><input id="reading-note" type="text" maxlength="160" placeholder="Note for this reading (optional)" aria-label="Note for this reading"><button id="save-button" class="button button-primary" disabled>Save reading</button></div>
+        </div>
+      </article>
+
+      <aside class="reading-side">
+        <article class="panel metric-card">
+          <div class="eyebrow">TEMPERATURE</div>
+          <div class="metric-value"><strong id="temperature-value">—</strong><span id="temperature-unit">°C</span></div>
+          <div class="metric-caption">Automatic temperature compensation</div>
+        </article>
+        <article class="panel metric-card">
+          <div class="eyebrow">DO SATURATION</div>
+          <div class="metric-value"><strong id="saturation-value">—</strong><span>%</span></div>
+          <div class="metric-caption">Relative dissolved oxygen</div>
+        </article>
+        <article class="panel metric-card">
+          <div class="eyebrow">ORP · BATTERY</div>
+          <div class="metric-value compact"><strong id="orp-value">—</strong><span>mV</span><b class="metric-divider"></b><strong id="battery-value">—</strong><span>%</span></div>
+          <div class="metric-caption">Auxiliary values from the BLE frame</div>
+        </article>
+        <article class="panel note-card">
+          <div class="card-icon">i</div>
+          <div><strong>For stable measurements</strong><p>Allow the probe reading to settle. Keep the probe gently moving in the sample, then record the stable value.</p></div>
+        </article>
+      </aside>
+    </div>
+  </section>
+
+  <section id="page-records" class="page">
+    <article class="panel">
+      <div class="page-heading"><div><div class="eyebrow">LOCAL MEASUREMENT LOG</div><h2>Saved readings</h2><p>Records stay in this browser until you export or clear them.</p></div><div class="toolbar"><button id="export-button" class="button button-secondary">Export CSV</button><button id="print-button" class="button button-secondary">Print</button><button id="clear-records-button" class="button button-danger">Clear all</button></div></div>
+      <div class="table-scroll"><table><thead><tr><th>Date &amp; time</th><th>DO (mg/L)</th><th>Saturation</th><th>Temp (°C)</th><th>ORP (mV)</th><th>Battery</th><th>Note</th></tr></thead><tbody id="records-body"><tr><td colspan="7" class="empty-table">No saved readings yet.</td></tr></tbody></table></div>
+    </article>
+    <article class="panel history-settings"><div><div class="eyebrow">AUTOMATIC SAVING</div><h3>Save measurements on an interval</h3><p>When enabled, the latest valid reading is saved locally at your selected interval.</p></div><label class="field field-inline"><span>Interval</span><select id="autosave-setting"><option value="off">Off</option><option value="30">30 seconds</option><option value="60">1 minute</option><option value="300">5 minutes</option></select></label></article>
+  </section>
+
+  <section id="page-settings" class="page">
+    <div class="settings-grid">
+      <article class="panel settings-panel"><div class="eyebrow">DISPLAY</div><h2>Measurement display</h2>
+        <label class="field"><span>Temperature unit</span><select id="temperature-setting"><option value="C">Celsius (°C)</option><option value="F">Fahrenheit (°F)</option></select></label>
+        <label class="field"><span>DO alert minimum <small>mg/L · optional</small></span><input id="minimum-setting" type="number" min="0" max="30" step="0.01" placeholder="No minimum"></label>
+        <label class="field"><span>DO alert maximum <small>mg/L · optional</small></span><input id="maximum-setting" type="number" min="0" max="30" step="0.01" placeholder="No maximum"></label>
+        <p class="helper-text">Alerts are local display limits only. Set limits using guidance appropriate to your species and operation.</p>
+      </article>
+      <article class="panel settings-panel"><div class="eyebrow">METER</div><h2>Device details</h2>
+        <dl class="detail-list"><div><dt>Model</dt><dd>BLE-9100</dd></div><div><dt>GATT service</dt><dd>FF01</dd></div><div><dt>Data characteristic</dt><dd>FF02 · read / notify</dd></div><div><dt>Connection type</dt><dd>Bluetooth Low Energy</dd></div></dl>
+        <p class="helper-text">The browser reads measurements from the meter. Settings and calibration commands are not sent over Bluetooth.</p>
+      </article>
+      <article class="panel settings-panel"><div class="eyebrow">METER SPECIFICATIONS</div><h2>BLE-9100 reference</h2>
+        <dl class="detail-list"><div><dt>DO range</dt><dd>0–30 mg/L</dd></div><div><dt>Saturation range</dt><dd>0–300%</dd></div><div><dt>Temperature range</dt><dd>0.1–40 °C</dd></div><div><dt>DO accuracy</dt><dd>±1.5% F.S.</dd></div></dl>
+        <p class="helper-text">Reference values from the BLE-9100 instruction manual. Always use the meter display and its calibration process as the instrument reference.</p>
+      </article>
+      <article class="panel settings-panel"><div class="eyebrow">SESSION</div><h2>Diagnostic stream</h2>
+        <p class="helper-text">Received BLE frames and decode errors help troubleshoot the connection. Frame content is shown locally and is not uploaded.</p>
+        <details class="diagnostics"><summary>Show raw packet log <span id="frame-count">(0 frames)</span></summary><ul id="packet-log"></ul></details>
+      </article>
+    </div>
+  </section>
+
+  <section id="page-calibration" class="page">
+    <div class="settings-grid calibration-grid">
+      <article class="panel settings-panel calibration-intro"><div class="eyebrow">INSTRUMENT PROCEDURE</div><h2>Calibration</h2><p>The BLE-9100 manual documents calibration through the meter’s MODE/CAL key. This web app does not send an unverified calibration command.</p><div class="calibration-banner">Use the meter’s physical controls to perform calibration. Record the completed calibration here for your operating log.</div></article>
+      <article class="panel settings-panel"><div class="eyebrow">100% · IN AIR</div><h3>Air calibration</h3><ol class="steps"><li>Switch the meter to saturation (%) mode.</li><li>Wait for the reading to stabilize in air.</li><li>Press and hold MODE/CAL on the meter for 5 seconds.</li><li>Confirm the meter flashes 100.0% three times.</li></ol><button class="button button-secondary calibration-log" data-calibration="100% air">Log completed air calibration</button></article>
+      <article class="panel settings-panel"><div class="eyebrow">0% · OPTIONAL</div><h3>Zero oxygen calibration</h3><ol class="steps"><li>Prepare anaerobic solution following its supplied instructions.</li><li>Switch the meter to mg/L mode and wait for a stable reading.</li><li>Press and hold MODE/CAL on the meter for 5 seconds.</li><li>Confirm the meter flashes 0% three times.</li></ol><button class="button button-secondary calibration-log" data-calibration="0% solution">Log completed zero calibration</button></article>
+      <article class="panel settings-panel"><div class="eyebrow">CALIBRATION LOG</div><h3>Recent calibration records</h3><ul id="calibration-records" class="calibration-records"><li class="muted">No calibration entries logged.</li></ul></article>
+    </div>
+  </section>
+
+  <footer><span>Local browser app · No cloud account</span><span>Use Chrome or Edge on localhost for Web Bluetooth</span></footer>
+</main>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
